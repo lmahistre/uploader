@@ -1,32 +1,21 @@
-<?php
-
-$uploadFolder = '../uploads';
-$allowedExts = [
-	"gif", "jpeg", "jpg", "png", "srt",
-];
-
-if (!is_dir($uploadFolder)) {
-	mkdir($uploadFolder);
-}
-
-if ($_POST) {
-	
-	if ($_FILES['file1']) {
-		$temp = explode(".", $_FILES["file1"]["name"]);
-		$extension = end($temp);
-
-		if (in_array($extension, $allowedExts)) {
-			if ($_FILES["file1"]["error"] > 0) {
-				$error = 'Error : '.$_FILES["file1"]["error"];
-			}
-			else {
-				move_uploaded_file($_FILES["file1"]["tmp_name"], $uploadFolder.$_FILES["file1"]["name"]);
-			}
-		}
-		else {
-			$error = "Forbidden extension";
-		}
-	}
-}
-
-require '../view.php';
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="text/javascript" src="dist/jquery.js"></script>
+		<script type="text/javascript" src="dist/jquery.ui.widget.js"></script>
+		<script type="text/javascript" src="dist/jquery.fileupload.js"></script>
+		<script type="text/javascript" src="dist/app.js"></script>
+		<link rel="shortcut icon" href="dist/favicon.png" type="image/vnd.microsoft.icon" />
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<title>Upload</title>
+	</head>
+	<body role="document">
+		<?php if (isset($error)) : ?>
+			<div><?php echo $error; ?></div>
+		<?php endif; ?>
+		<input id="file_upload" type="file" name="filename_file" multiple>
+		<div id="upload_list"></div>
+	</body>
+</html>
