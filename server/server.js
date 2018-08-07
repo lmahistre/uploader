@@ -4,10 +4,12 @@ var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
 
-app.use(express.static(path.join(__dirname, 'public')));
+const rootFolder = path.resolve(__dirname+'/..');
+
+app.use(express.static(path.join(rootFolder, 'public')));
 
 app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname, 'views/index.html'));
+  res.sendFile(path.join(rootFolder, 'server/views/index.html'));
 });
 
 app.post('/upload', function(req, res){
@@ -19,12 +21,14 @@ app.post('/upload', function(req, res){
   form.multiples = true;
 
   // store all uploads in the /uploads directory
-  form.uploadDir = path.join(__dirname, '/uploads');
+  form.uploadDir = path.join(rootFolder, '/uploads');
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
   form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
+    fs.rename(file.path, path.join(form.uploadDir, file.name), function() {
+			// fake callback to avoid warnings
+    });
   });
 
   // log any errors that occur
@@ -39,7 +43,6 @@ app.post('/upload', function(req, res){
 
   // parse the incoming request containing the form data
   form.parse(req);
-
 });
 
 var server = app.listen(3004, function(){

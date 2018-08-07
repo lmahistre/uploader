@@ -1,15 +1,21 @@
 {
   "name": "file-uploader",
-  "version": "1.0.0",
-  "description": "An AJAX file uploader using JS and NodeJS",
+  "version": "1.0.1",
+  "description": "An AJAX file uploader using jQuery and NodeJS",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js start"
   },
   "author": "Fady Makram",
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
-    "formidable": "^1.0.17"
+    "formidable": "^1.0.17",
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "less": "^3.8.0",
+    "webpack": "^4.16.5"
   }
 }

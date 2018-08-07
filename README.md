@@ -1,5 +1,7 @@
-# Building an AJAX File Uploader with NodeJs
+# File Uploader
 
-This code is for the tutorial on building an AJAX file uploader with NodeJs, express, and formidable.
+Uploads files.
 
-Check out the full tutorial at [coligo](http://coligo.io/building-ajax-file-uploader-with-node/)
+## Usage
+
+`npm start`
