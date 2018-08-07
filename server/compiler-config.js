@@ -6,20 +6,20 @@ const resolve = relativePath => path.resolve(__dirname, '..', relativePath)
 module.exports = {
 	js : {
 		// mode: 'development',
-		// module: {
-		// 	rules: [
-		// 		{
-		// 			test: /\.jsx$/,
-		// 			exclude: /node_modules/,
-		// 			use: {
-		// 				loader: "babel-loader",
-		// 				options: {
-		// 					presets: ["env", "react"]
-		// 				},
-		// 			},
-		// 		},
-		// 	],
-		// },
+		module: {
+			rules: [
+				{
+					test: /\.jsx$/,
+					exclude: /node_modules/,
+					use: {
+						loader: "babel-loader",
+						options: {
+							presets: ["env", "react"]
+						},
+					},
+				},
+			],
+		},
 		entry : appDirName+"/src/js/entry.js",
 		output : {
 			path : appDirName +'/public',

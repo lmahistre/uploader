@@ -15,20 +15,20 @@
   <div class="container">
     <div class="row">
       <div class="col-xs-12">
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="react-root">
           <div class="panel-body">
             <h2>File Uploader</h2>
             <div class="progress">
               <div class="progress-bar" role="progressbar"></div>
             </div>
             <button class="btn btn-lg upload-btn" type="button">Upload File</button>
+            <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
 
   <script src="bundle.js"></script>
 </body>
