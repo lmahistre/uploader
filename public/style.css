@@ -6040,11 +6040,23 @@ button.close {
 html,
 body {
   height: 100%;
-  background-color: #4791D2;
+  background-color: #111;
 }
 body {
   text-align: center;
   font-family: Arial, sans-serif;
+}
+body .progress {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #EEE;
+  height: 24px;
+}
+body .progress .progress-bar {
+  line-height: 24px;
+}
+body h2 {
+  color: #FFF;
 }
 .row {
   margin-top: 80px;
@@ -6077,6 +6089,7 @@ h2 {
 .panel {
   padding-top: 20px;
   padding-bottom: 20px;
+  background-color: #4791D2;
 }
 #upload-input {
   display: none;
