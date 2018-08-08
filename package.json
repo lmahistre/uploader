@@ -5,14 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node index.js build",
     "start": "node index.js start"
   },
   "author": "Fady Makram",
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.3",
-    "formidable": "^1.0.17",
-    "jquery": "^3.3.1"
+    "formidable": "^1.0.17"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

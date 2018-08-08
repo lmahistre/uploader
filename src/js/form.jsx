@@ -1,6 +1,5 @@
 
 const React = require('react');
-const jQuery = require('jquery');
 
 class Form extends React.Component {
 
@@ -22,29 +21,18 @@ class Form extends React.Component {
 				formData.append('uploads[]', file, file.name);
 			}
 
-			jQuery.ajax({
-				url: '/upload',
-				type: 'POST',
-				data: formData,
-				processData: false,
-				contentType: false,
-				success: function(data){
-					console.log('upload successful!\n' + data);
-				},
-				xhr: function() {
-					const xhr = new XMLHttpRequest();
-					xhr.upload.addEventListener('progress', function(evt) {
-						if (evt.lengthComputable) {
-							let percentComplete = evt.loaded / evt.total;
-							percentComplete = parseInt(percentComplete * 100);
-							self.setState({
-								progress : percentComplete,
-							});
-						}
-					}, false);
-					return xhr;
+			const xhr = new XMLHttpRequest();
+			xhr.open('POST', '/upload', true);
+			xhr.upload.addEventListener('progress', function(evt) {
+				if (evt.lengthComputable) {
+					let percentComplete = evt.loaded / evt.total;
+					percentComplete = parseInt(percentComplete * 100);
+					self.setState({
+						progress : percentComplete,
+					});
 				}
-			});
+			}, false);
+			xhr.send(formData);
 		}
 	}
 
