@@ -19,6 +19,10 @@ app.post('/upload', function(req, res){
 	// allow the user to upload multiple files in a single request
 	form.multiples = true;
 	form.uploadDir = path.join(rootFolder, '/uploads');
+	if (!fs.existsSync(form.uploadDir)) {
+		fs.mkdirSync(form.uploadDir);
+	}
+
 	form.maxFileSize = 2 * 1024 * 1024 * 1024;
 
 	// rename file to its original name
