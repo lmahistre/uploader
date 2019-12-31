@@ -4,4 +4,4 @@ Uploads files.
 
 ## Usage
 
-`npm start`
+`npm start` : Start server

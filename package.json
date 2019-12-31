@@ -1,27 +1,39 @@
 {
-  "name": "file-uploader",
-  "version": "1.0.1",
-  "description": "An AJAX file uploader using jQuery and NodeJS",
+  "name": "upload",
+  "version": "1.1.1",
+  "description": "An AJAX file uploader using React and NodeJS",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node index.js build",
     "start": "node index.js start"
   },
-  "author": "Fady Makram",
+  "author": "Lionel Mahistre",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.13.3",
-    "formidable": "^1.0.17"
+    "chalk": "^3.0.0",
+    "express": "^4.17.1",
+    "formidable": "^1.2.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-loader": "^7.1.5",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "less": "^3.8.0",
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "webpack": "^4.16.5"
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "less": "^3.9.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "webpack": "^4.41.5"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
   }
 }

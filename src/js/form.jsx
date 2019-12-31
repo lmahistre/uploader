@@ -1,4 +1,3 @@
-
 const React = require('react');
 
 class Form extends React.Component {
@@ -6,6 +5,7 @@ class Form extends React.Component {
 	constructor() {
 		super();
 		this.state = {
+			uploading : false,
 			progress : 0,
 		}
 	}
@@ -32,6 +32,11 @@ class Form extends React.Component {
 					});
 				}
 			}, false);
+			xhr.upload.addEventListener('loadend', function(event) {
+				self.setState({
+					uploading : false,
+				});
+			});
 			xhr.send(formData);
 		}
 	}
@@ -41,6 +46,7 @@ class Form extends React.Component {
 		document.getElementById('upload-input').click();
 		this.setState({
 			progress : 0,
+			uploading : true,
 		});
 	}
 
@@ -56,7 +62,11 @@ class Form extends React.Component {
 							<div className="progress">
 								<div className="progress-bar" role="progressbar" style={{width : this.state.progress+'%'}}>{progressLabel}</div>
 							</div>
-							<button className="btn btn-lg upload-btn" type="button" onClick={this.triggerUpload.bind(this)}>{"Upload File"}</button>
+							{this.state.uploading ?
+								<button className="btn btn-lg upload-btn">{"Uploading..."}</button>
+							:
+								<button className="btn btn-lg upload-btn" type="button" onClick={this.triggerUpload.bind(this)}>{"Upload File"}</button>
+							}
 							<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
 						</div>
 					</div>
