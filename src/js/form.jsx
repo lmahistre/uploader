@@ -13,6 +13,9 @@ class Form extends React.Component {
 	upload(event) {
 		const self = this;
 		const files = event.target.files;
+		this.setState({
+			uploading : true,
+		});
 
 		if (files.length > 0){
 			const formData = new FormData();
@@ -42,11 +45,10 @@ class Form extends React.Component {
 	}
 
 
-	triggerUpload() {
+	triggerSelectFile() {
 		document.getElementById('upload-input').click();
 		this.setState({
 			progress : 0,
-			uploading : true,
 		});
 	}
 
@@ -54,23 +56,16 @@ class Form extends React.Component {
 	render() {
 		const progressLabel = this.state.progress < 100 ? this.state.progress+'%' : 'Done';
 		return (
-			<div class="row">
-				<div class="col-xs-12">
-					<div class="panel panel-default">
-						<div className="panel-body">
-							<h2>{"File Uploader"}</h2>
-							<div className="progress">
-								<div className="progress-bar" role="progressbar" style={{width : this.state.progress+'%'}}>{progressLabel}</div>
-							</div>
-							{this.state.uploading ?
-								<button className="btn btn-lg upload-btn">{"Uploading..."}</button>
-							:
-								<button className="btn btn-lg upload-btn" type="button" onClick={this.triggerUpload.bind(this)}>{"Upload File"}</button>
-							}
-							<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
-						</div>
+			<div className="panel-body">
+				<h1>{"File Uploader"}</h1>
+				{this.state.uploading ?
+					<div className="progress">
+						<div className="progress-bar" role="progressbar" style={{width : this.state.progress+'%'}}>{progressLabel}</div>
 					</div>
-				</div>
+				:
+					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
+				}
+				<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
 			</div>
 		);
 	}

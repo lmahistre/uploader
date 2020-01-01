@@ -25,7 +25,7 @@ app.post('/upload', function(req, res){
 	let fileName;
 
 	// allow the user to upload multiple files in a single request
-	form.maxFileSize =  config.maxFileSize;
+	form.maxFileSize = config.maxFileSize;
 	form.multiples = true;
 	form.uploadDir = uploadDir;
 

@@ -660,6 +660,9 @@ function (_React$Component) {
     value: function upload(event) {
       var self = this;
       var files = event.target.files;
+      this.setState({
+        uploading: true
+      });
 
       if (files.length > 0) {
         var formData = new FormData();
@@ -689,12 +692,11 @@ function (_React$Component) {
       }
     }
   }, {
-    key: "triggerUpload",
-    value: function triggerUpload() {
+    key: "triggerSelectFile",
+    value: function triggerSelectFile() {
       document.getElementById('upload-input').click();
       this.setState({
-        progress: 0,
-        uploading: true
+        progress: 0
       });
     }
   }, {
@@ -702,14 +704,8 @@ function (_React$Component) {
     value: function render() {
       var progressLabel = this.state.progress < 100 ? this.state.progress + '%' : 'Done';
       return React.createElement("div", {
-        "class": "row"
-      }, React.createElement("div", {
-        "class": "col-xs-12"
-      }, React.createElement("div", {
-        "class": "panel panel-default"
-      }, React.createElement("div", {
         className: "panel-body"
-      }, React.createElement("h2", null, "File Uploader"), React.createElement("div", {
+      }, React.createElement("h1", null, "File Uploader"), this.state.uploading ? React.createElement("div", {
         className: "progress"
       }, React.createElement("div", {
         className: "progress-bar",
@@ -717,19 +713,17 @@ function (_React$Component) {
         style: {
           width: this.state.progress + '%'
         }
-      }, progressLabel)), this.state.uploading ? React.createElement("button", {
-        className: "btn btn-lg upload-btn"
-      }, "Uploading...") : React.createElement("button", {
-        className: "btn btn-lg upload-btn",
+      }, progressLabel)) : React.createElement("button", {
+        className: "upload-btn",
         type: "button",
-        onClick: this.triggerUpload.bind(this)
+        onClick: this.triggerSelectFile.bind(this)
       }, "Upload File"), React.createElement("input", {
         id: "upload-input",
         type: "file",
         name: "uploads[]",
         multiple: "multiple ",
         onChange: this.upload.bind(this)
-      })))));
+      }));
     }
   }]);
 
