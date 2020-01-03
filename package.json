@@ -4,7 +4,7 @@
   "description": "An AJAX file uploader using React and NodeJS",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "nodejs index.js test",
     "build": "node index.js build",
     "start": "node index.js start"
   },
@@ -13,7 +13,8 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "express": "^4.17.1",
-    "formidable": "^1.2.1"
+    "formidable": "^1.2.1",
+    "jest": "^24.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",

@@ -1,9 +1,9 @@
 const fs = require('fs');
+const path = require('path');
 const os = require('os');
 
 const chalk = require('chalk');
 const express = require('express');
-const path = require('path');
 const formidable = require('formidable');
 
 const config = require('./config');
@@ -22,7 +22,8 @@ app.get('/', function(req, res){
 
 app.post('/upload', function(req, res){
 	const form = new formidable.IncomingForm();
-	let fileName;
+	let clientFileName, serverFileName;
+	const remoteIp = req.ip.split(':').pop();
 
 	// allow the user to upload multiple files in a single request
 	form.maxFileSize = config.maxFileSize;
@@ -35,8 +36,12 @@ app.post('/upload', function(req, res){
 
 	// rename file to its original name
 	form.on('file', function(field, file) {
-		fileName = file.name;
-		fs.renameSync(file.path, path.join(uploadDir, file.name));
+		clientFileName = file.name;
+		serverFileName = clientFileName;
+		while (fs.existsSync(path.join(form.uploadDir, serverFileName))) {
+			serverFileName = utils.findNewName(serverFileName);
+		}
+		fs.renameSync(file.path, path.join(uploadDir, serverFileName));
 	});
 
 	// log any errors
@@ -46,7 +51,7 @@ app.post('/upload', function(req, res){
 
 	// once all the files have been uploaded, send a response to the client
 	form.on('end', function() {
-		console.log(chalk.green(fileName + ' has been uploaded'));
+		console.log(chalk.green(serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp) + (clientFileName !== serverFileName ? ' (original name: '+chalk.yellow(clientFileName)+')' : '') );
 		res.end('success');
 	});
 

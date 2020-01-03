@@ -1,26 +1,31 @@
 const React = require('react');
 
-class Form extends React.Component {
+const utils = require('./utils');
 
+class Form extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			uploading : false,
 			progress : 0,
+			uploaded : [],
 		}
 	}
 
 	upload(event) {
-		const self = this;
-		const files = event.target.files;
 		this.setState({
 			uploading : true,
 		});
+		const self = this;
+		const files = event.target.files;
 
-		if (files.length > 0){
+		if (files.length > 0) {
 			const formData = new FormData();
+			let fileName;
+
 			for (let i = 0; i < files.length; i++) {
 				const file = files[i];
+				fileName = file.name;
 				formData.append('uploads[]', file, file.name);
 			}
 
@@ -39,11 +44,13 @@ class Form extends React.Component {
 				self.setState({
 					uploading : false,
 				});
+				if (!document.hasFocus()) {
+					utils.notify('File "' + fileName + '" uploaded');
+				}
 			});
 			xhr.send(formData);
 		}
 	}
-
 
 	triggerSelectFile() {
 		document.getElementById('upload-input').click();
@@ -52,21 +59,22 @@ class Form extends React.Component {
 		});
 	}
 
-
 	render() {
 		const progressLabel = this.state.progress < 100 ? this.state.progress+'%' : 'Done';
 		return (
-			<div className="panel-body">
+			<React.Fragment>
 				<h1>{"File Uploader"}</h1>
-				{this.state.uploading ?
-					<div className="progress">
-						<div className="progress-bar" role="progressbar" style={{width : this.state.progress+'%'}}>{progressLabel}</div>
-					</div>
-				:
-					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
-				}
-				<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
-			</div>
+				<div className="panel-body">
+					{this.state.uploading ?
+						<div className="progress">
+							<div className="progress-bar" role="progressbar" style={{width : this.state.progress+'%'}}>{progressLabel}</div>
+						</div>
+					:
+						<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
+					}
+					<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
+				</div>
+			</React.Fragment>
 		);
 	}
 }

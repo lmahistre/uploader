@@ -14,4 +14,3 @@ if (args.length) {
 else if (typeof action.default === 'function') {
 	action.default();
 }
-

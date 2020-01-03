@@ -637,6 +637,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 var React = __webpack_require__(0);
 
+var utils = __webpack_require__(9);
+
 var Form =
 /*#__PURE__*/
 function (_React$Component) {
@@ -650,7 +652,8 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Form).call(this));
     _this.state = {
       uploading: false,
-      progress: 0
+      progress: 0,
+      uploaded: []
     };
     return _this;
   }
@@ -658,17 +661,19 @@ function (_React$Component) {
   _createClass(Form, [{
     key: "upload",
     value: function upload(event) {
-      var self = this;
-      var files = event.target.files;
       this.setState({
         uploading: true
       });
+      var self = this;
+      var files = event.target.files;
 
       if (files.length > 0) {
         var formData = new FormData();
+        var fileName;
 
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
+          fileName = file.name;
           formData.append('uploads[]', file, file.name);
         }
 
@@ -687,6 +692,10 @@ function (_React$Component) {
           self.setState({
             uploading: false
           });
+
+          if (!document.hasFocus()) {
+            utils.notify('File "' + fileName + '" uploaded');
+          }
         });
         xhr.send(formData);
       }
@@ -703,9 +712,9 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var progressLabel = this.state.progress < 100 ? this.state.progress + '%' : 'Done';
-      return React.createElement("div", {
+      return React.createElement(React.Fragment, null, React.createElement("h1", null, "File Uploader"), React.createElement("div", {
         className: "panel-body"
-      }, React.createElement("h1", null, "File Uploader"), this.state.uploading ? React.createElement("div", {
+      }, this.state.uploading ? React.createElement("div", {
         className: "progress"
       }, React.createElement("div", {
         className: "progress-bar",
@@ -723,7 +732,7 @@ function (_React$Component) {
         name: "uploads[]",
         multiple: "multiple ",
         onChange: this.upload.bind(this)
-      }));
+      })));
     }
   }]);
 
@@ -731,6 +740,30 @@ function (_React$Component) {
 }(React.Component);
 
 module.exports = Form;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+exports.notify = function(msg) {
+	if (window.Notification) {
+		var options = {
+			// icon : $('head link[rel^=shortcut]').attr('href'),
+		};
+
+		if (Notification.permission === "granted") {
+			var notification = new Notification(msg, options);
+		}
+		else if (Notification.permission !== "denied") {
+			Notification.requestPermission(function (permission) {
+				if (permission === "granted") {
+					var notification = new Notification(msg, options);
+				}
+			});
+		}
+	}
+}
+
 
 /***/ })
 /******/ ]);
