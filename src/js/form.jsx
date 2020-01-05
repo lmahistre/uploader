@@ -43,6 +43,7 @@ class Form extends React.Component {
 			xhr.upload.addEventListener('loadend', function(event) {
 				self.setState({
 					uploading : false,
+					uploaded : self.state.uploaded.concat(fileNames),
 				});
 				if (!document.hasFocus()) {
 					utils.notify('File'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" uploaded');
@@ -74,6 +75,14 @@ class Form extends React.Component {
 					}
 					<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
 				</div>
+				{this.state.uploaded.length ?
+					<div className="panel-body">
+						<h2>Uploaded files</h2>
+						{this.state.uploaded.map((fileName, idx) => (
+							<div key={idx} className="file-item">{fileName}</div>
+						))}
+					</div>
+				: null}
 			</React.Fragment>
 		);
 	}

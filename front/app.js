@@ -690,7 +690,8 @@ function (_React$Component) {
         }, false);
         xhr.upload.addEventListener('loadend', function (event) {
           self.setState({
-            uploading: false
+            uploading: false,
+            uploaded: self.state.uploaded.concat(fileNames)
           });
 
           if (!document.hasFocus()) {
@@ -732,7 +733,14 @@ function (_React$Component) {
         name: "uploads[]",
         multiple: "multiple ",
         onChange: this.upload.bind(this)
-      })));
+      })), this.state.uploaded.length ? React.createElement("div", {
+        className: "panel-body"
+      }, React.createElement("h2", null, "Uploaded files"), this.state.uploaded.map(function (fileName, idx) {
+        return React.createElement("div", {
+          key: idx,
+          className: "file-item"
+        }, fileName);
+      })) : null);
     }
   }]);
 
