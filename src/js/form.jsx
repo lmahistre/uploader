@@ -21,11 +21,11 @@ class Form extends React.Component {
 
 		if (files.length > 0) {
 			const formData = new FormData();
-			let fileName;
+			const fileNames = [];
 
 			for (let i = 0; i < files.length; i++) {
 				const file = files[i];
-				fileName = file.name;
+				fileNames.push(file.name);
 				formData.append('uploads[]', file, file.name);
 			}
 
@@ -45,7 +45,7 @@ class Form extends React.Component {
 					uploading : false,
 				});
 				if (!document.hasFocus()) {
-					utils.notify('File "' + fileName + '" uploaded');
+					utils.notify('File'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" uploaded');
 				}
 			});
 			xhr.send(formData);

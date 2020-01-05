@@ -669,11 +669,11 @@ function (_React$Component) {
 
       if (files.length > 0) {
         var formData = new FormData();
-        var fileName;
+        var fileNames = [];
 
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
-          fileName = file.name;
+          fileNames.push(file.name);
           formData.append('uploads[]', file, file.name);
         }
 
@@ -694,7 +694,7 @@ function (_React$Component) {
           });
 
           if (!document.hasFocus()) {
-            utils.notify('File "' + fileName + '" uploaded');
+            utils.notify('File' + (fileNames.length > 1 ? 's' : '') + ' "' + fileNames.join('", "') + '" uploaded');
           }
         });
         xhr.send(formData);

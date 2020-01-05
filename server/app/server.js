@@ -22,10 +22,9 @@ app.get('/', function(req, res){
 
 app.post('/upload', function(req, res){
 	const form = new formidable.IncomingForm();
-	let clientFileName, serverFileName;
 	const remoteIp = req.ip.split(':').pop();
+	const files = [];
 
-	// allow the user to upload multiple files in a single request
 	form.maxFileSize = config.maxFileSize;
 	form.multiples = true;
 	form.uploadDir = uploadDir;
@@ -34,24 +33,42 @@ app.post('/upload', function(req, res){
 		fs.mkdirSync(form.uploadDir);
 	}
 
-	// rename file to its original name
 	form.on('file', function(field, file) {
 		clientFileName = file.name;
 		serverFileName = clientFileName;
 		while (fs.existsSync(path.join(form.uploadDir, serverFileName))) {
 			serverFileName = utils.findNewName(serverFileName);
 		}
+		files.push({
+			serverFileName,
+			clientFileName,
+		})
 		fs.renameSync(file.path, path.join(uploadDir, serverFileName));
 	});
 
-	// log any errors
 	form.on('error', function(err) {
 		console.log(chalk.red('An error has occured: \n' + err));
 	});
 
-	// once all the files have been uploaded, send a response to the client
 	form.on('end', function() {
-		console.log(chalk.green(serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp) + (clientFileName !== serverFileName ? ' (original name: '+chalk.yellow(clientFileName)+')' : '') );
+		let msg = '';
+		if (files.length > 1) {
+			msg = files.length + ' files have been uploaded from ' + chalk.green(remoteIp) + ' :\n';
+			for (let i=0; i<files.length; i++) {
+				msg += chalk.green(files[i].serverFileName);
+				if (files[i].serverFileName !== files[i].clientFileName) {
+					msg += ' (original name: '+chalk.yellow(files[i].clientFileName)+')';
+				}
+				msg += '\n';
+			}
+		}
+		else {
+			msg = chalk.green(files[0].serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp);
+			if (files[0].clientFileName !== files[0].serverFileName) {
+				msg += ' (original name: '+chalk.yellow(clientFileName)+')';
+			}
+		}
+		console.log(msg);
 		res.end('success');
 	});
 
