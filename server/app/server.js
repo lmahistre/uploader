@@ -5,6 +5,7 @@ const os = require('os');
 const chalk = require('chalk');
 const express = require('express');
 const formidable = require('formidable');
+const notifier = require('node-notifier');
 
 const config = require('./config');
 const utils = require('./utils');
@@ -68,8 +69,18 @@ app.post('/upload', function(req, res){
 				msg += ' (original name: '+chalk.yellow(clientFileName)+')';
 			}
 		}
-		console.log(msg);
-		res.end('success');
+
+		res.json({
+			success : 1,
+		});
+
+		if (config.notify) {
+			notifier.notify({
+				title : files.length + ' file' + (files.length > 1 ? 's' : '') + ' uploaded',
+				message : files.map(f => f.serverFileName).join('\n'),
+				icon : path.join(rootFolder, 'front/favicon.png'),
+			});
+		}
 	});
 
 	form.parse(req);
