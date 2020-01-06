@@ -689,14 +689,49 @@ function (_React$Component) {
           }
         }, false);
         xhr.upload.addEventListener('loadend', function (event) {
-          self.setState({
-            uploading: false,
-            uploaded: self.state.uploaded.concat(fileNames)
-          });
+          setTimeout(function () {
+            var success;
+            var error;
 
-          if (!document.hasFocus()) {
-            utils.notify('File' + (fileNames.length > 1 ? 's' : '') + ' "' + fileNames.join('", "') + '" uploaded');
-          }
+            try {
+              var response = JSON.parse(xhr.response);
+
+              if (response.success) {
+                success = response.success;
+              } else if (response.error) {
+                error = response.error;
+              }
+            } catch (err) {
+              error = 'Cannot parse response';
+            }
+
+            var uploaded = self.state.uploaded;
+
+            for (var _i = 0; _i < fileNames.length; _i++) {
+              uploaded.push({
+                success: success,
+                error: error,
+                fileName: fileNames[_i]
+              });
+            }
+
+            if (success) {
+              if (!document.hasFocus()) {
+                utils.notify('File' + (fileNames.length > 1 ? 's' : '') + ' "' + fileNames.join('", "') + '" uploaded');
+              }
+            } else {
+              console.error(error);
+
+              if (!document.hasFocus()) {
+                utils.notify('Upload of file' + (fileNames.length > 1 ? 's' : '') + ' "' + fileNames.join('", "') + '" failed');
+              }
+            }
+
+            self.setState({
+              uploading: false,
+              uploaded: uploaded
+            });
+          }, 100);
         });
         xhr.send(formData);
       }
@@ -735,11 +770,11 @@ function (_React$Component) {
         onChange: this.upload.bind(this)
       })), this.state.uploaded.length ? React.createElement("div", {
         className: "panel-body"
-      }, React.createElement("h2", null, "Uploaded files"), this.state.uploaded.map(function (fileName, idx) {
+      }, React.createElement("h2", null, "Uploaded files"), this.state.uploaded.map(function (file, idx) {
         return React.createElement("div", {
           key: idx,
-          className: "file-item"
-        }, fileName);
+          className: "file-item " + (file.success ? 'success' : 'error')
+        }, file.fileName);
       })) : null);
     }
   }]);

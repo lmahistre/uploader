@@ -58,7 +58,15 @@ body #react-root .upload-btn {
   border: none;
 }
 body #react-root .file-item {
-  margin: 8px 0;
+  margin: 4px 0;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+body #react-root .file-item.success {
+  background-color: #080;
+}
+body #react-root .file-item.error {
+  background-color: #800;
 }
 body #react-root .upload-btn:hover,
 body #react-root .upload-btn:focus,

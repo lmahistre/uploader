@@ -49,6 +49,9 @@ app.post('/upload', function(req, res){
 
 	form.on('error', function(err) {
 		console.log(chalk.red('An error has occured: \n' + err));
+		res.status(403).json({
+			error : err.message,
+		});
 	});
 
 	form.on('end', function() {

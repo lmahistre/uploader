@@ -41,13 +41,47 @@ class Form extends React.Component {
 				}
 			}, false);
 			xhr.upload.addEventListener('loadend', function(event) {
-				self.setState({
-					uploading : false,
-					uploaded : self.state.uploaded.concat(fileNames),
-				});
-				if (!document.hasFocus()) {
-					utils.notify('File'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" uploaded');
-				}
+				setTimeout(function() {
+					let success;
+					let error;
+					try {
+						const response = JSON.parse(xhr.response);
+						if (response.success) {
+							success = response.success;
+						}
+						else if (response.error) {
+							error = response.error;
+						}
+					}
+					catch (err) {
+						error = 'Cannot parse response';
+					}
+
+					const uploaded = self.state.uploaded;
+					for (let i=0; i<fileNames.length; i++) {
+						uploaded.push({
+							success,
+							error,
+							fileName : fileNames[i],
+						});
+					}
+
+					if (success) {
+						if (!document.hasFocus()) {
+							utils.notify('File'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" uploaded');
+						}
+					}
+					else {
+						console.error(error);
+						if (!document.hasFocus()) {
+							utils.notify('Upload of file'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" failed');
+						}
+					}
+					self.setState({
+						uploading : false,
+						uploaded,
+					});
+				}, 100);
 			});
 			xhr.send(formData);
 		}
@@ -78,8 +112,8 @@ class Form extends React.Component {
 				{this.state.uploaded.length ?
 					<div className="panel-body">
 						<h2>Uploaded files</h2>
-						{this.state.uploaded.map((fileName, idx) => (
-							<div key={idx} className="file-item">{fileName}</div>
+						{this.state.uploaded.map((file, idx) => (
+							<div key={idx} className={"file-item " + (file.success ? 'success' : 'error')}>{file.fileName}</div>
 						))}
 					</div>
 				: null}
