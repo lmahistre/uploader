@@ -1,7 +1,7 @@
 exports.notify = function(msg) {
 	if (window.Notification) {
 		var options = {
-			// icon : $('head link[rel^=shortcut]').attr('href'),
+			icon : document.querySelector('head link[rel^=shortcut]').href,
 		};
 
 		if (Notification.permission === "granted") {

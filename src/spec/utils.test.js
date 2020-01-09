@@ -15,4 +15,14 @@ describe('utils', function() {
 		expect(utils.findNewName('a.b (0).txt')).toBe('a.b (1).txt');
 		expect(utils.findNewName('a.b (52).txt')).toBe('a.b (53).txt');
 	});
+
+	it('readFileSize', function() {
+		expect(utils.readFileSize('150')).toBe(150);
+		expect(utils.readFileSize('2k')).toBe(2048);
+		expect(utils.readFileSize('10M')).toBe(10485760);
+		expect(utils.readFileSize('1G')).toBe(1073741824);
+		expect(utils.readFileSize('1T')).toBe(1099511627776);
+		expect(utils.readFileSize('az')).toBeUndefined();
+		expect(utils.readFileSize()).toBeUndefined();
+	});
 });
