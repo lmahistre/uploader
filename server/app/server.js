@@ -69,15 +69,13 @@ module.exports = function(options) {
 				}
 			}
 			else {
-				msg = chalk.green(files[0].serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp);
+				msg = files[0].serverFileName + ' has been uploaded from ' + chalk.green(remoteIp);
 				if (files[0].clientFileName !== files[0].serverFileName) {
 					msg += ' (original name: '+chalk.yellow(clientFileName)+')';
 				}
 			}
 
-			res.json({
-				success : 1,
-			});
+			console.log(msg);
 
 			if (options.notify && config.notify) {
 				notifier.notify({
@@ -86,6 +84,10 @@ module.exports = function(options) {
 					icon : path.join(rootFolder, 'front/favicon.png'),
 				});
 			}
+
+			res.json({
+				success : 1,
+			});
 		});
 
 		form.parse(req);
@@ -93,6 +95,14 @@ module.exports = function(options) {
 
 	const port = options.port && parseInt(options.port) || config.port;
 	const server = app.listen(port, function() {
-		console.log(chalk.green('Server listening on port ' + port + '\nUploads in folder: ' + uploadDir));
+		const ifaces = os.networkInterfaces();
+		for (let k in ifaces) {
+			ifaces[k].map(function(interface) {
+				if (interface.family === 'IPv4') {
+					console.log('Server running on ' + interface.address + ':' + port);
+				}
+			});
+		}
+		console.log('Uploads in folder: ' + chalk.green(uploadDir));
 	});
 }
