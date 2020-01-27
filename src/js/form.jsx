@@ -98,7 +98,7 @@ class Form extends React.Component {
 		const progressLabel = this.state.progress < 100 ? this.state.progress+'%' : 'Done';
 		return (
 			<React.Fragment>
-				<h1>{"File Uploader"}</h1>
+				<h1>{"Uploader"}</h1>
 				<div className="panel-body">
 					{this.state.uploading ?
 						<div className="progress">

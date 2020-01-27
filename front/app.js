@@ -748,7 +748,7 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var progressLabel = this.state.progress < 100 ? this.state.progress + '%' : 'Done';
-      return React.createElement(React.Fragment, null, React.createElement("h1", null, "File Uploader"), React.createElement("div", {
+      return React.createElement(React.Fragment, null, React.createElement("h1", null, "Uploader"), React.createElement("div", {
         className: "panel-body"
       }, this.state.uploading ? React.createElement("div", {
         className: "progress"
@@ -791,7 +791,7 @@ module.exports = Form;
 exports.notify = function(msg) {
 	if (window.Notification) {
 		var options = {
-			// icon : $('head link[rel^=shortcut]').attr('href'),
+			icon : document.querySelector('head link[rel^=shortcut]').href,
 		};
 
 		if (Notification.permission === "granted") {
