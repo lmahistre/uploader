@@ -651,9 +651,9 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Form).call(this));
     _this.state = {
-      uploading: false,
-      progress: 0,
-      uploaded: []
+      index: 0,
+      uploaded: [],
+      filesInUpload: []
     };
     return _this;
   }
@@ -661,79 +661,107 @@ function (_React$Component) {
   _createClass(Form, [{
     key: "upload",
     value: function upload(event) {
-      this.setState({
-        uploading: true
-      });
+      var _this2 = this;
+
       var self = this;
       var files = event.target.files;
 
       if (files.length > 0) {
-        var formData = new FormData();
-        var fileNames = [];
-
-        for (var i = 0; i < files.length; i++) {
+        var _loop = function _loop(i) {
+          var formData = new FormData();
           var file = files[i];
-          fileNames.push(file.name);
+          var fileInUpload = {
+            name: file.name,
+            index: _this2.getNextIndex(),
+            progress: 0,
+            complete: false
+          };
           formData.append('uploads[]', file, file.name);
-        }
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/upload', true);
-        xhr.upload.addEventListener('progress', function (evt) {
-          if (evt.lengthComputable) {
-            var percentComplete = evt.loaded / evt.total;
-            percentComplete = parseInt(percentComplete * 100);
-            self.setState({
-              progress: percentComplete
-            });
-          }
-        }, false);
-        xhr.upload.addEventListener('loadend', function (event) {
-          setTimeout(function () {
-            var success;
-            var error;
-
-            try {
-              var response = JSON.parse(xhr.response);
-
-              if (response.success) {
-                success = response.success;
-              } else if (response.error) {
-                error = response.error;
-              }
-            } catch (err) {
-              error = 'Cannot parse response';
-            }
-
-            var uploaded = self.state.uploaded;
-
-            for (var _i = 0; _i < fileNames.length; _i++) {
-              uploaded.push({
-                success: success,
-                error: error,
-                fileName: fileNames[_i]
+          var filesInUpload = self.state.filesInUpload;
+          filesInUpload.push(fileInUpload);
+          self.setState({
+            filesInUpload: filesInUpload
+          });
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', '/upload', true);
+          xhr.upload.addEventListener('progress', function (evt) {
+            if (evt.lengthComputable) {
+              var percentComplete = parseInt(100 * evt.loaded / evt.total);
+              var _filesInUpload = self.state.filesInUpload;
+              _filesInUpload[i].progress = percentComplete;
+              self.setState({
+                filesInUpload: _filesInUpload
               });
             }
+          }, false);
+          xhr.upload.addEventListener('load', function (event) {
+            setTimeout(function () {
+              var success;
+              var error;
 
-            if (success) {
-              if (!document.hasFocus()) {
-                utils.notify('File' + (fileNames.length > 1 ? 's' : '') + ' "' + fileNames.join('", "') + '" uploaded');
+              try {
+                var response = JSON.parse(xhr.response);
+
+                if (response.success) {
+                  success = response.success;
+                } else if (response.error) {
+                  error = response.error;
+                }
+              } catch (err) {
+                error = 'Cannot parse response';
+              } // const { uploaded, filesInUpload } = self.state;
+
+
+              var filesInUpload = self.state.filesInUpload; // uploaded.push({
+              // 	success,
+              // 	error,
+              // 	fileName : file.name,
+              // });
+
+              if (success) {
+                if (!document.hasFocus()) {
+                  utils.notify('File "' + file.name + '" uploaded');
+                }
+              } else {
+                console.error(error);
+
+                if (!document.hasFocus()) {
+                  utils.notify('Upload of file "' + file.name + '" failed');
+                }
               }
-            } else {
-              console.error(error);
 
-              if (!document.hasFocus()) {
-                utils.notify('Upload of file' + (fileNames.length > 1 ? 's' : '') + ' "' + fileNames.join('", "') + '" failed');
-              }
-            }
+              var fileInUploadIndex;
 
-            self.setState({
-              uploading: false,
-              uploaded: uploaded
-            });
-          }, 100);
-        });
-        xhr.send(formData);
+              for (var j = 0; j < filesInUpload.length; j++) {
+                if (fileInUpload.index === filesInUpload[j].index) {
+                  // fileInUploadIndex = j;
+                  filesInUpload[j].complete = true;
+
+                  if (success) {
+                    filesInUpload[j].success = success;
+                  }
+
+                  if (error) {
+                    filesInUpload[j].error = error;
+                  }
+                }
+              } // if (typeof fileInUploadIndex === 'number') {
+              // 	filesInUpload.splice(fileInUploadIndex, 1);
+              // }
+
+
+              self.setState({
+                // uploaded,
+                filesInUpload: filesInUpload
+              });
+            }, 100);
+          });
+          xhr.send(formData);
+        };
+
+        for (var i = 0; i < files.length; i++) {
+          _loop(i);
+        }
       }
     }
   }, {
@@ -745,20 +773,19 @@ function (_React$Component) {
       });
     }
   }, {
+    key: "getNextIndex",
+    value: function getNextIndex() {
+      this.setState({
+        index: this.state.index + 1
+      });
+      return '_' + ('' + this.state.index).padStart(3, '0');
+    }
+  }, {
     key: "render",
     value: function render() {
-      var progressLabel = this.state.progress < 100 ? this.state.progress + '%' : 'Done';
       return React.createElement(React.Fragment, null, React.createElement("h1", null, "Uploader"), React.createElement("div", {
         className: "panel-body"
-      }, this.state.uploading ? React.createElement("div", {
-        className: "progress"
-      }, React.createElement("div", {
-        className: "progress-bar",
-        role: "progressbar",
-        style: {
-          width: this.state.progress + '%'
-        }
-      }, progressLabel)) : React.createElement("button", {
+      }, React.createElement("button", {
         className: "upload-btn",
         type: "button",
         onClick: this.triggerSelectFile.bind(this)
@@ -768,14 +795,21 @@ function (_React$Component) {
         name: "uploads[]",
         multiple: "multiple ",
         onChange: this.upload.bind(this)
-      })), this.state.uploaded.length ? React.createElement("div", {
-        className: "panel-body"
-      }, React.createElement("h2", null, "Uploaded files"), this.state.uploaded.map(function (file, idx) {
-        return React.createElement("div", {
-          key: idx,
+      }), this.state.filesInUpload.map(function (file) {
+        return file.complete ? React.createElement("div", {
+          key: file.index,
           className: "file-item " + (file.success ? 'success' : 'error')
-        }, file.fileName);
-      })) : null);
+        }, file.name) : React.createElement("div", {
+          key: file.index,
+          className: "progress"
+        }, React.createElement("div", {
+          className: "progress-bar",
+          role: "progressbar",
+          style: {
+            width: file.progress + '%'
+          }
+        }, file.name, " : ", file.progress, " %"));
+      })));
     }
   }]);
 

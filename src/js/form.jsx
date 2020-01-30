@@ -6,84 +6,98 @@ class Form extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			uploading : false,
-			progress : 0,
+			index : 0,
 			uploaded : [],
+			filesInUpload : [],
 		}
 	}
 
 	upload(event) {
-		this.setState({
-			uploading : true,
-		});
 		const self = this;
 		const files = event.target.files;
 
 		if (files.length > 0) {
-			const formData = new FormData();
-			const fileNames = [];
-
 			for (let i = 0; i < files.length; i++) {
+				const formData = new FormData();
 				const file = files[i];
-				fileNames.push(file.name);
+
+				const fileInUpload = {
+					name : file.name,
+					index : this.getNextIndex(),
+					progress : 0,
+					complete : false,
+				};
 				formData.append('uploads[]', file, file.name);
-			}
 
-			const xhr = new XMLHttpRequest();
-			xhr.open('POST', '/upload', true);
-			xhr.upload.addEventListener('progress', function(evt) {
-				if (evt.lengthComputable) {
-					let percentComplete = evt.loaded / evt.total;
-					percentComplete = parseInt(percentComplete * 100);
-					self.setState({
-						progress : percentComplete,
-					});
-				}
-			}, false);
-			xhr.upload.addEventListener('loadend', function(event) {
-				setTimeout(function() {
-					let success;
-					let error;
-					try {
-						const response = JSON.parse(xhr.response);
-						if (response.success) {
-							success = response.success;
-						}
-						else if (response.error) {
-							error = response.error;
-						}
-					}
-					catch (err) {
-						error = 'Cannot parse response';
-					}
+				const {filesInUpload} = self.state;
+				filesInUpload.push(fileInUpload);
+				self.setState({filesInUpload});
 
-					const uploaded = self.state.uploaded;
-					for (let i=0; i<fileNames.length; i++) {
-						uploaded.push({
-							success,
-							error,
-							fileName : fileNames[i],
+				const xhr = new XMLHttpRequest();
+				xhr.open('POST', '/upload', true);
+
+				xhr.upload.addEventListener('progress', function(evt) {
+					if (evt.lengthComputable) {
+						let percentComplete = parseInt(100 * evt.loaded / evt.total);
+
+						const {filesInUpload} = self.state;
+						filesInUpload[i].progress = percentComplete;
+						self.setState({filesInUpload});
+					}
+				}, false);
+
+				xhr.upload.addEventListener('load', function(event) {
+					setTimeout(function() {
+						let success;
+						let error;
+						try {
+							const response = JSON.parse(xhr.response);
+							if (response.success) {
+								success = response.success;
+							}
+							else if (response.error) {
+								error = response.error;
+							}
+						}
+						catch (err) {
+							error = 'Cannot parse response';
+						}
+
+						const { filesInUpload } = self.state;
+
+						if (success) {
+							if (!document.hasFocus()) {
+								utils.notify('File "' + file.name + '" uploaded');
+							}
+						}
+						else {
+							console.error(error);
+							if (!document.hasFocus()) {
+								utils.notify('Upload of file "' + file.name + '" failed');
+							}
+						}
+
+						let fileInUploadIndex;
+						for (let j=0; j<filesInUpload.length; j++) {
+							if (fileInUpload.index === filesInUpload[j].index) {
+								// fileInUploadIndex = j;
+								filesInUpload[j].complete = true;
+								if (success) {
+									filesInUpload[j].success = success;
+								}
+								if (error) {
+									filesInUpload[j].error = error;
+								}
+							}
+						}
+
+						self.setState({
+							filesInUpload,
 						});
-					}
-
-					if (success) {
-						if (!document.hasFocus()) {
-							utils.notify('File'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" uploaded');
-						}
-					}
-					else {
-						console.error(error);
-						if (!document.hasFocus()) {
-							utils.notify('Upload of file'+(fileNames.length > 1 ? 's' : '')+' "' + fileNames.join('", "') + '" failed');
-						}
-					}
-					self.setState({
-						uploading : false,
-						uploaded,
-					});
-				}, 100);
-			});
-			xhr.send(formData);
+					}, 100);
+				});
+				xhr.send(formData);
+			}
 		}
 	}
 
@@ -94,29 +108,31 @@ class Form extends React.Component {
 		});
 	}
 
+	getNextIndex() {
+		this.setState({
+			index : this.state.index + 1,
+		});
+		return '_'+(''+this.state.index).padStart(3, '0');
+	}
+
 	render() {
-		const progressLabel = this.state.progress < 100 ? this.state.progress+'%' : 'Done';
 		return (
 			<React.Fragment>
 				<h1>{"Uploader"}</h1>
 				<div className="panel-body">
-					{this.state.uploading ?
-						<div className="progress">
-							<div className="progress-bar" role="progressbar" style={{width : this.state.progress+'%'}}>{progressLabel}</div>
-						</div>
-					:
-						<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
-					}
+					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
 					<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
+
+					{this.state.filesInUpload.map(file => file.complete ?
+							<div key={file.index} className={"file-item " + (file.success ? 'success' : 'error')}>{file.name}</div>
+						:
+							<div key={file.index} className="progress">
+								<div className="progress-bar" role="progressbar" style={{width : file.progress+'%'}}>
+									{file.name} : {file.progress} %
+								</div>
+							</div>
+					)}
 				</div>
-				{this.state.uploaded.length ?
-					<div className="panel-body">
-						<h2>Uploaded files</h2>
-						{this.state.uploaded.map((file, idx) => (
-							<div key={idx} className={"file-item " + (file.success ? 'success' : 'error')}>{file.fileName}</div>
-						))}
-					</div>
-				: null}
 			</React.Fragment>
 		);
 	}
