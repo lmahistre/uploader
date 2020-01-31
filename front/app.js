@@ -639,6 +639,8 @@ var React = __webpack_require__(0);
 
 var utils = __webpack_require__(9);
 
+var classNames = __webpack_require__(10);
+
 var Form =
 /*#__PURE__*/
 function (_React$Component) {
@@ -652,19 +654,18 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Form).call(this));
     _this.state = {
       index: 0,
-      uploaded: [],
+      drag: false,
       filesInUpload: []
     };
     return _this;
   }
 
   _createClass(Form, [{
-    key: "upload",
-    value: function upload(event) {
+    key: "uploadFiles",
+    value: function uploadFiles(files) {
       var _this2 = this;
 
       var self = this;
-      var files = event.target.files;
 
       if (files.length > 0) {
         var _loop = function _loop(i) {
@@ -709,14 +710,9 @@ function (_React$Component) {
                 }
               } catch (err) {
                 error = 'Cannot parse response';
-              } // const { uploaded, filesInUpload } = self.state;
+              }
 
-
-              var filesInUpload = self.state.filesInUpload; // uploaded.push({
-              // 	success,
-              // 	error,
-              // 	fileName : file.name,
-              // });
+              var filesInUpload = self.state.filesInUpload;
 
               if (success) {
                 if (!document.hasFocus()) {
@@ -745,13 +741,9 @@ function (_React$Component) {
                     filesInUpload[j].error = error;
                   }
                 }
-              } // if (typeof fileInUploadIndex === 'number') {
-              // 	filesInUpload.splice(fileInUploadIndex, 1);
-              // }
-
+              }
 
               self.setState({
-                // uploaded,
                 filesInUpload: filesInUpload
               });
             }, 100);
@@ -763,6 +755,13 @@ function (_React$Component) {
           _loop(i);
         }
       }
+    }
+  }, {
+    key: "upload",
+    value: function upload(event) {
+      var self = this;
+      var files = event.target.files;
+      this.uploadFiles(files);
     }
   }, {
     key: "triggerSelectFile",
@@ -781,15 +780,36 @@ function (_React$Component) {
       return '_' + ('' + this.state.index).padStart(3, '0');
     }
   }, {
+    key: "handleDragOver",
+    value: function handleDragOver(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.setState({
+        drag: true
+      });
+    }
+  }, {
+    key: "handleDrop",
+    value: function handleDrop(event) {
+      event.stopPropagation();
+      event.preventDefault();
+      this.setState({
+        drag: false
+      });
+      this.uploadFiles(event.dataTransfer.files);
+    }
+  }, {
     key: "render",
     value: function render() {
       return React.createElement(React.Fragment, null, React.createElement("h1", null, "Uploader"), React.createElement("div", {
-        className: "panel-body"
+        className: classNames('panel-body', this.state.drag && 'drag'),
+        onDragOver: this.handleDragOver.bind(this),
+        onDrop: this.handleDrop.bind(this)
       }, React.createElement("button", {
         className: "upload-btn",
         type: "button",
         onClick: this.triggerSelectFile.bind(this)
-      }, "Upload File"), React.createElement("input", {
+      }, "Upload Fil e"), React.createElement("input", {
         id: "upload-input",
         type: "file",
         name: "uploads[]",
@@ -798,7 +818,7 @@ function (_React$Component) {
       }), this.state.filesInUpload.map(function (file) {
         return file.complete ? React.createElement("div", {
           key: file.index,
-          className: "file-item " + (file.success ? 'success' : 'error')
+          className: classNames('file-item', file.success ? 'success' : 'error')
         }, file.name) : React.createElement("div", {
           key: file.index,
           className: "progress"
@@ -839,6 +859,28 @@ exports.notify = function(msg) {
 			});
 		}
 	}
+}
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports) {
+
+const SEPARATOR = ' ';
+
+module.exports = function(...args) {
+	const classes = [];
+	for (let i=0; i<args.length; i++) {
+		if (typeof args[i] === 'string') {
+			const argClasses = args[i].split(SEPARATOR);
+			for (let j=0; j<argClasses.length; j++) {
+				if (classes.indexOf(argClasses[j]) === -1) {
+					classes.push(argClasses[j]);
+				}
+			}
+		}
+	}
+	return classes.join(SEPARATOR);
 }
 
 

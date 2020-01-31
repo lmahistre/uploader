@@ -1,21 +1,20 @@
 const React = require('react');
 
 const utils = require('./utils');
+const classNames = require('./class-names');
 
 class Form extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			index : 0,
-			uploaded : [],
+			drag : false,
 			filesInUpload : [],
 		}
 	}
 
-	upload(event) {
+	uploadFiles(files) {
 		const self = this;
-		const files = event.target.files;
-
 		if (files.length > 0) {
 			for (let i = 0; i < files.length; i++) {
 				const formData = new FormData();
@@ -101,6 +100,12 @@ class Form extends React.Component {
 		}
 	}
 
+	upload(event) {
+		const self = this;
+		const files = event.target.files;
+		this.uploadFiles(files);
+	}
+
 	triggerSelectFile() {
 		document.getElementById('upload-input').click();
 		this.setState({
@@ -115,16 +120,42 @@ class Form extends React.Component {
 		return '_'+(''+this.state.index).padStart(3, '0');
 	}
 
+	handleDragOver(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		this.setState({
+			drag : true,
+		});
+	}
+
+	handleDrop(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		this.setState({
+			drag : false,
+		});
+		this.uploadFiles(event.dataTransfer.files);
+	}
+
 	render() {
 		return (
 			<React.Fragment>
 				<h1>{"Uploader"}</h1>
-				<div className="panel-body">
-					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
+				<div
+					className={classNames('panel-body', this.state.drag && 'drag')}
+					onDragOver={this.handleDragOver.bind(this)}
+					onDrop={this.handleDrop.bind(this)}
+				>
+					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload Fil e"}</button>
 					<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
 
 					{this.state.filesInUpload.map(file => file.complete ?
-							<div key={file.index} className={"file-item " + (file.success ? 'success' : 'error')}>{file.name}</div>
+							<div
+								key={file.index}
+								className={classNames('file-item', file.success ? 'success' : 'error')}
+							>
+								{file.name}
+							</div>
 						:
 							<div key={file.index} className="progress">
 								<div className="progress-bar" role="progressbar" style={{width : file.progress+'%'}}>
