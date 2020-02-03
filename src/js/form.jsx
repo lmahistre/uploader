@@ -20,15 +20,16 @@ class Form extends React.Component {
 				const formData = new FormData();
 				const file = files[i];
 
+				const {filesInUpload} = self.state;
 				const fileInUpload = {
 					name : file.name,
-					index : this.getNextIndex(),
+					index : filesInUpload.length + 1,
 					progress : 0,
 					complete : false,
 				};
+				console.log(fileInUpload.index);
 				formData.append('uploads[]', file, file.name);
 
-				const {filesInUpload} = self.state;
 				filesInUpload.push(fileInUpload);
 				self.setState({filesInUpload});
 
@@ -79,7 +80,6 @@ class Form extends React.Component {
 						let fileInUploadIndex;
 						for (let j=0; j<filesInUpload.length; j++) {
 							if (fileInUpload.index === filesInUpload[j].index) {
-								// fileInUploadIndex = j;
 								filesInUpload[j].complete = true;
 								if (success) {
 									filesInUpload[j].success = success;
@@ -114,6 +114,7 @@ class Form extends React.Component {
 	}
 
 	getNextIndex() {
+		console.log(this.state.index);
 		this.setState({
 			index : this.state.index + 1,
 		});
@@ -146,22 +147,21 @@ class Form extends React.Component {
 					onDragOver={this.handleDragOver.bind(this)}
 					onDrop={this.handleDrop.bind(this)}
 				>
-					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload Fil e"}</button>
+					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
 					<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
 
 					{this.state.filesInUpload.map(file => file.complete ?
-							<div
-								key={file.index}
-								className={classNames('file-item', file.success ? 'success' : 'error')}
-							>
-								{file.name}
-							</div>
-						:
-							<div key={file.index} className="progress">
-								<div className="progress-bar" role="progressbar" style={{width : file.progress+'%'}}>
-									{file.name} : {file.progress} %
-								</div>
-							</div>
+						<div
+							key={file.index}
+							className={classNames('file-item', file.success ? 'success' : 'error')}
+						>
+							<span className="file-text">{file.name}</span>
+						</div>
+					:
+						<div key={file.index} className="file-item">
+							<span className="file-text">{file.name} : {file.progress} %</span>
+							<div className="progress-bar" role="progressbar" style={{width : file.progress+'%'}} />
+						</div>
 					)}
 				</div>
 			</React.Fragment>

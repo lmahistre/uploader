@@ -663,22 +663,22 @@ function (_React$Component) {
   _createClass(Form, [{
     key: "uploadFiles",
     value: function uploadFiles(files) {
-      var _this2 = this;
-
       var self = this;
 
       if (files.length > 0) {
         var _loop = function _loop(i) {
           var formData = new FormData();
           var file = files[i];
+          var filesInUpload = self.state.filesInUpload;
           var fileInUpload = {
             name: file.name,
-            index: _this2.getNextIndex(),
+            // index : this.getNextIndex(),
+            index: filesInUpload.length + 1,
             progress: 0,
             complete: false
           };
+          console.log(fileInUpload.index);
           formData.append('uploads[]', file, file.name);
-          var filesInUpload = self.state.filesInUpload;
           filesInUpload.push(fileInUpload);
           self.setState({
             filesInUpload: filesInUpload
@@ -730,7 +730,6 @@ function (_React$Component) {
 
               for (var j = 0; j < filesInUpload.length; j++) {
                 if (fileInUpload.index === filesInUpload[j].index) {
-                  // fileInUploadIndex = j;
                   filesInUpload[j].complete = true;
 
                   if (success) {
@@ -774,6 +773,7 @@ function (_React$Component) {
   }, {
     key: "getNextIndex",
     value: function getNextIndex() {
+      console.log(this.state.index);
       this.setState({
         index: this.state.index + 1
       });
@@ -809,7 +809,7 @@ function (_React$Component) {
         className: "upload-btn",
         type: "button",
         onClick: this.triggerSelectFile.bind(this)
-      }, "Upload Fil e"), React.createElement("input", {
+      }, "Upload File"), React.createElement("input", {
         id: "upload-input",
         type: "file",
         name: "uploads[]",
@@ -819,16 +819,20 @@ function (_React$Component) {
         return file.complete ? React.createElement("div", {
           key: file.index,
           className: classNames('file-item', file.success ? 'success' : 'error')
-        }, file.name) : React.createElement("div", {
+        }, React.createElement("span", {
+          className: "file-text"
+        }, file.name)) : React.createElement("div", {
           key: file.index,
-          className: "progress"
-        }, React.createElement("div", {
+          className: "file-item"
+        }, React.createElement("span", {
+          className: "file-text"
+        }, file.name, " : ", file.progress, " %"), React.createElement("div", {
           className: "progress-bar",
           role: "progressbar",
           style: {
             width: file.progress + '%'
           }
-        }, file.name, " : ", file.progress, " %"));
+        }));
       })));
     }
   }]);

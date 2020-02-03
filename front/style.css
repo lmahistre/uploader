@@ -19,14 +19,14 @@ body #react-root h2 {
 body #react-root .panel-body {
   background-color: #234;
   border-radius: 4px;
-  padding: 16px;
+  padding: 8px;
   margin: 16px 0;
 }
 body #react-root .panel-body.drag {
   background-color: #468;
 }
 body #react-root button {
-  padding: 10px 16px;
+  padding: 8px 16px;
   font-size: 18px;
   line-height: 1.3333333;
   border-radius: 6px;
@@ -39,35 +39,37 @@ body #react-root .upload-btn {
   background-color: #F89406;
   border: none;
 }
-body #react-root .progress {
-  border-width: 0px;
-  height: 24px;
-  overflow: hidden;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-  margin: 4px 0;
-}
-body #react-root .progress .progress-bar {
-  float: left;
-  width: 0;
-  height: 100%;
-  line-height: 20px;
-  text-align: center;
-  background-color: #337ab7;
-  transition: width 0.6s linear;
-}
 body #react-root .file-item {
   margin: 4px 0;
   padding: 4px 8px;
   border-radius: 4px;
-  height: 24px;
+  height: 20px;
+  line-height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  clear: both;
+  background-color: #37b;
+  overflow-x: hidden;
+}
+body #react-root .file-item .file-text {
+  width: 100%;
+  display: block;
 }
 body #react-root .file-item.success {
   background-color: #080;
 }
 body #react-root .file-item.error {
   background-color: #800;
+}
+body #react-root .file-item .progress-bar {
+  float: left;
+  width: 0;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  background-color: #F89406;
+  transition: width 0.6s linear;
+  margin-top: -20px;
 }
 body #react-root .upload-btn:hover,
 body #react-root .upload-btn:focus,
