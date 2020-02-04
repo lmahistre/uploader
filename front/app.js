@@ -672,12 +672,10 @@ function (_React$Component) {
           var filesInUpload = self.state.filesInUpload;
           var fileInUpload = {
             name: file.name,
-            // index : this.getNextIndex(),
             index: filesInUpload.length + 1,
             progress: 0,
             complete: false
           };
-          console.log(fileInUpload.index);
           formData.append('uploads[]', file, file.name);
           filesInUpload.push(fileInUpload);
           self.setState({
@@ -771,15 +769,6 @@ function (_React$Component) {
       });
     }
   }, {
-    key: "getNextIndex",
-    value: function getNextIndex() {
-      console.log(this.state.index);
-      this.setState({
-        index: this.state.index + 1
-      });
-      return '_' + ('' + this.state.index).padStart(3, '0');
-    }
-  }, {
     key: "handleDragOver",
     value: function handleDragOver(event) {
       event.stopPropagation();
@@ -868,24 +857,59 @@ exports.notify = function(msg) {
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-const SEPARATOR = ' ';
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+/* global define */
 
-module.exports = function(...args) {
-	const classes = [];
-	for (let i=0; i<args.length; i++) {
-		if (typeof args[i] === 'string') {
-			const argClasses = args[i].split(SEPARATOR);
-			for (let j=0; j<argClasses.length; j++) {
-				if (classes.indexOf(argClasses[j]) === -1) {
-					classes.push(argClasses[j]);
+(function () {
+	'use strict';
+
+	var hasOwn = {}.hasOwnProperty;
+
+	function classNames () {
+		var classes = [];
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if (argType === 'string' || argType === 'number') {
+				classes.push(arg);
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
+			} else if (argType === 'object') {
+				for (var key in arg) {
+					if (hasOwn.call(arg, key) && arg[key]) {
+						classes.push(key);
+					}
 				}
 			}
 		}
+
+		return classes.join(' ');
 	}
-	return classes.join(SEPARATOR);
-}
+
+	if ( true && module.exports) {
+		classNames.default = classNames;
+		module.exports = classNames;
+	} else if (true) {
+		// register as 'classnames', consistent with npm package name
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
+			return classNames;
+		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {}
+}());
 
 
 /***/ })

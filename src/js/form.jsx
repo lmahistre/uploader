@@ -1,7 +1,7 @@
 const React = require('react');
 
 const utils = require('./utils');
-const classNames = require('./class-names');
+const classNames = require('classnames');
 
 class Form extends React.Component {
 	constructor() {
@@ -27,7 +27,6 @@ class Form extends React.Component {
 					progress : 0,
 					complete : false,
 				};
-				console.log(fileInUpload.index);
 				formData.append('uploads[]', file, file.name);
 
 				filesInUpload.push(fileInUpload);
@@ -111,14 +110,6 @@ class Form extends React.Component {
 		this.setState({
 			progress : 0,
 		});
-	}
-
-	getNextIndex() {
-		console.log(this.state.index);
-		this.setState({
-			index : this.state.index + 1,
-		});
-		return '_'+(''+this.state.index).padStart(3, '0');
 	}
 
 	handleDragOver(event) {
