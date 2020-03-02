@@ -672,7 +672,7 @@ function (_React$Component) {
           var filesInUpload = self.state.filesInUpload;
           var fileInUpload = {
             name: file.name,
-            index: filesInUpload.length + 1,
+            index: filesInUpload.length,
             progress: 0,
             complete: false
           };
@@ -687,7 +687,7 @@ function (_React$Component) {
             if (evt.lengthComputable) {
               var percentComplete = parseInt(100 * evt.loaded / evt.total);
               var _filesInUpload = self.state.filesInUpload;
-              _filesInUpload[i].progress = percentComplete;
+              _filesInUpload[fileInUpload.index].progress = percentComplete;
               self.setState({
                 filesInUpload: _filesInUpload
               });

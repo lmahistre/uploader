@@ -23,7 +23,7 @@ class Form extends React.Component {
 				const {filesInUpload} = self.state;
 				const fileInUpload = {
 					name : file.name,
-					index : filesInUpload.length + 1,
+					index : filesInUpload.length,
 					progress : 0,
 					complete : false,
 				};
@@ -40,7 +40,7 @@ class Form extends React.Component {
 						let percentComplete = parseInt(100 * evt.loaded / evt.total);
 
 						const {filesInUpload} = self.state;
-						filesInUpload[i].progress = percentComplete;
+						filesInUpload[fileInUpload.index].progress = percentComplete;
 						self.setState({filesInUpload});
 					}
 				}, false);
