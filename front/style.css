@@ -31,9 +31,6 @@ body #react-root button {
   line-height: 1.3333333;
   border-radius: 6px;
 }
-body #react-root #upload-input {
-  display: none;
-}
 body #react-root .upload-btn {
   color: #ffffff;
   background-color: #F89406;
@@ -51,25 +48,11 @@ body #react-root .file-item {
   background-color: #37b;
   overflow-x: hidden;
 }
-body #react-root .file-item .file-text {
-  width: 100%;
-  display: block;
-}
 body #react-root .file-item.success {
   background-color: #080;
 }
 body #react-root .file-item.error {
   background-color: #800;
-}
-body #react-root .file-item .progress-bar {
-  float: left;
-  width: 0;
-  height: 20px;
-  line-height: 20px;
-  text-align: center;
-  background-color: #F89406;
-  transition: width 0.6s linear;
-  margin-top: -20px;
 }
 body #react-root .upload-btn:hover,
 body #react-root .upload-btn:focus,

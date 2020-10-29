@@ -1,7 +1,28 @@
+const { StyleSheet, css } = require('aphrodite/no-important');
 const React = require('react');
 
 const utils = require('./utils');
 const classNames = require('classnames');
+
+const styles = StyleSheet.create({
+	fileText : {
+		width : '100%',
+		display : 'block',
+	},
+	progressBar : {
+		float : 'left',
+		width : '0',
+		height: '20px',
+		lineHeight: '20px',
+		textAlign: 'center',
+		backgroundColor: '#F89406',
+		transition: 'width .6s linear',
+		marginTop : '-20px',
+	},
+	uploadInput : {
+		display : 'none',
+	},
+});
 
 class Form extends React.Component {
 	constructor() {
@@ -10,7 +31,8 @@ class Form extends React.Component {
 			index : 0,
 			drag : false,
 			filesInUpload : [],
-		}
+		};
+		this.uploadInputRef = React.createRef();
 	}
 
 	uploadFiles(files) {
@@ -106,7 +128,7 @@ class Form extends React.Component {
 	}
 
 	triggerSelectFile() {
-		document.getElementById('upload-input').click();
+		this.uploadInputRef.current.click();
 		this.setState({
 			progress : 0,
 		});
@@ -139,7 +161,7 @@ class Form extends React.Component {
 					onDrop={this.handleDrop.bind(this)}
 				>
 					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
-					<input id="upload-input" type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} />
+					<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} ref={this.uploadInputRef} />
 
 					{this.state.filesInUpload.map(file => file.complete ?
 						<div
@@ -150,8 +172,8 @@ class Form extends React.Component {
 						</div>
 					:
 						<div key={file.index} className="file-item">
-							<span className="file-text">{file.name} : {file.progress} %</span>
-							<div className="progress-bar" role="progressbar" style={{width : file.progress+'%'}} />
+							<span className={css(styles.fileText)}>{file.name} : {file.progress} %</span>
+							<div className={css(styles.progressBar)} role="progressbar" style={{width : file.progress+'%'}} />
 						</div>
 					)}
 				</div>
