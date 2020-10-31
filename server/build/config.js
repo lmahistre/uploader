@@ -21,7 +21,7 @@ module.exports = {
 			],
 		},
 		entry : {
-			app : appDirName+"/src/js/entry.js",
+			app : appDirName+"/src/entry.js",
 		},
 		resolve : {
 			extensions : ['.js', '.jsx',],
@@ -34,16 +34,10 @@ module.exports = {
 			filename : '[name].js',
 		},
 	},
-	css : {
-		inputFolder : appDirName+'/src/less',
-		inputFilename : 'entry.less',
-		outputFolder : appDirName+'/front',
-		outputFilename : 'style.css',
-	},
 	test : {
 		rootDir : appDirName,
 		testMatch : [
-			'**/spec/**/?(*.)(spec|test).js?(x)',
+			'**/test/**/?(*.)(spec|test).js?(x)',
 		],
 		verbose : false,
 		transform: {

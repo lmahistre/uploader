@@ -8,7 +8,7 @@ exports.test = function (args) {
 }
 
 exports.build = function(args) {
-	tasks.js().then(tasks.css);
+	tasks.js();
 }
 
 exports.start = function(args) {

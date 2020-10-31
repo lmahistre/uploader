@@ -25,49 +25,6 @@ exports.js = function(config) {
 	});
 }
 
-exports.css =  function(config, callback) {
-	const less = require('less');
-	return new Promise(function(resolve, reject) {
-		try {
-			fs.readFile(config.inputFolder+'/'+config.inputFilename, { 
-				encoding: 'utf8' 
-			}, 
-			function(err, data) {
-				if (err) {
-					reject(err);
-				}
-				less.render(data, {
-					paths: [config.inputFolder+'/'],
-					filename: './'+config.inputFilename,
-					compress: false,
-				},
-				function (e, output) {
-					if (e) {
-						reject(e);
-					}
-					else {
-						fs.writeFile(config.outputFolder+'/'+config.outputFilename, output.css, {
-							flag:'w+', 
-							encoding:'utf8'
-						},
-						function(err, stg) {
-							if (err) {
-								reject(err);
-							}
-							else {
-								resolve();
-							}
-						});
-					}
-				});
-			});
-		}
-		catch(err) {
-			reject(err);
-		}
-	});
-};
-
 exports.test = function(config, callback) {
 	const jest = require('jest');
 	jest.runCLI(config, [config.rootDir]).then(function(success) {

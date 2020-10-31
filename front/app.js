@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -92,7 +92,7 @@
 
 
 if (true) {
-  module.exports = __webpack_require__(5);
+  module.exports = __webpack_require__(6);
 } else {}
 
 
@@ -197,6 +197,13 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(12);
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
@@ -218,7 +225,7 @@ module.exports = hash;
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -291,12 +298,12 @@ RawTask.prototype.call = function () {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 const React = __webpack_require__(0);
-const ReactDOM = __webpack_require__(6);
-const Form = __webpack_require__(10);
+const ReactDOM = __webpack_require__(7);
+const Form = __webpack_require__(11);
 
 window.onload = function () {
 	ReactDOM.render(
@@ -307,7 +314,7 @@ window.onload = function () {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -339,7 +346,7 @@ __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED:{ReactCurrentDispatcher:I,Rea
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -368,12 +375,12 @@ if (true) {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(7);
+  module.exports = __webpack_require__(8);
 } else {}
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -389,7 +396,7 @@ if (true) {
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(0),n=__webpack_require__(1),q=__webpack_require__(8);function u(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}if(!aa)throw Error(u(227));var ba=null,ca={};
+var aa=__webpack_require__(0),n=__webpack_require__(1),q=__webpack_require__(9);function u(a){for(var b="https://reactjs.org/docs/error-decoder.html?invariant="+a,c=1;c<arguments.length;c++)b+="&args[]="+encodeURIComponent(arguments[c]);return"Minified React error #"+a+"; visit "+b+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings."}if(!aa)throw Error(u(227));var ba=null,ca={};
 function da(){if(ba)for(var a in ca){var b=ca[a],c=ba.indexOf(a);if(!(-1<c))throw Error(u(96,a));if(!ea[c]){if(!b.extractEvents)throw Error(u(97,a));ea[c]=b;c=b.eventTypes;for(var d in c){var e=void 0;var f=c[d],g=b,h=d;if(fa.hasOwnProperty(h))throw Error(u(99,h));fa[h]=f;var k=f.phasedRegistrationNames;if(k){for(e in k)k.hasOwnProperty(e)&&ha(k[e],g,h);e=!0}else f.registrationName?(ha(f.registrationName,g,h),e=!0):e=!1;if(!e)throw Error(u(98,d,a));}}}}
 function ha(a,b,c){if(ia[a])throw Error(u(100,a));ia[a]=b;ja[a]=b.eventTypes[c].dependencies}var ea=[],fa={},ia={},ja={};function ka(a,b,c,d,e,f,g,h,k){var l=Array.prototype.slice.call(arguments,3);try{b.apply(c,l)}catch(m){this.onError(m)}}var la=!1,ma=null,na=!1,oa=null,pa={onError:function(a){la=!0;ma=a}};function qa(a,b,c,d,e,f,g,h,k){la=!1;ma=null;ka.apply(pa,arguments)}
 function ra(a,b,c,d,e,f,g,h,k){qa.apply(this,arguments);if(la){if(la){var l=ma;la=!1;ma=null}else throw Error(u(198));na||(na=!0,oa=l)}}var sa=null,ua=null,va=null;function wa(a,b,c){var d=a.type||"unknown-event";a.currentTarget=va(c);ra(d,b,void 0,a);a.currentTarget=null}function xa(a,b){if(null==b)throw Error(u(30));if(null==a)return b;if(Array.isArray(a)){if(Array.isArray(b))return a.push.apply(a,b),a;a.push(b);return a}return Array.isArray(b)?[a].concat(b):[a,b]}
@@ -670,19 +677,19 @@ rendererPackageName:"react-dom"});var Dk={default:Ck},Ek=Dk&&Ck||Dk;module.expor
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 if (true) {
-  module.exports = __webpack_require__(9);
+  module.exports = __webpack_require__(10);
 } else {}
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -711,7 +718,7 @@ exports.unstable_pauseExecution=function(){};exports.unstable_getFirstCallbackNo
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -732,7 +739,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-var _require = __webpack_require__(11),
+var _require = __webpack_require__(2),
     StyleSheet = _require.StyleSheet,
     css = _require.css;
 
@@ -740,7 +747,7 @@ var React = __webpack_require__(0);
 
 var utils = __webpack_require__(16);
 
-var classNames = __webpack_require__(17);
+var H1 = __webpack_require__(17);
 
 var styles = StyleSheet.create({
   fileText: {
@@ -759,6 +766,54 @@ var styles = StyleSheet.create({
   },
   uploadInput: {
     display: 'none'
+  },
+  panelBody: {
+    backgroundColor: '#234',
+    borderRadius: '4px',
+    padding: '8px',
+    marginb: '16px 0'
+  },
+  drag: {
+    backgroundColor: '#468'
+  },
+  button: {
+    padding: '8px 16px',
+    fontSize: '18px',
+    lineHeight: '1.3333333',
+    borderRadius: '6px',
+    color: '#ffffff',
+    backgroundColor: '#F89406',
+    border: 'none',
+    ':hover': {
+      color: '#FFF',
+      backgroundColor: '#FA8900'
+    },
+    ':focus': {
+      color: '#FFF',
+      backgroundColor: '#FA8900'
+    },
+    ':active': {
+      color: '#FFF',
+      backgroundColor: '#FA8900'
+    }
+  },
+  fileItem: {
+    margin: '4px 0',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    height: '20px',
+    lineHeight: '20px',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
+    clear: 'both',
+    backgroundColor: '#37b',
+    overflowX: 'hidden'
+  },
+  error: {
+    backgroundColor: '#800'
+  },
+  success: {
+    backgroundColor: '#080'
   }
 });
 
@@ -885,9 +940,7 @@ function (_React$Component) {
   }, {
     key: "triggerSelectFile",
     value: function triggerSelectFile() {
-      console.log(this.uploadInputRef);
-      this.uploadInputRef.current.click(); // document.getElementById('upload-input').click();
-
+      this.uploadInputRef.current.click();
       this.setState({
         progress: 0
       });
@@ -914,12 +967,12 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return React.createElement(React.Fragment, null, React.createElement("h1", null, "Uploader"), React.createElement("div", {
-        className: classNames('panel-body', this.state.drag && 'drag'),
+      return React.createElement(React.Fragment, null, React.createElement(H1, null, "Uploader"), React.createElement("div", {
+        className: css(styles.panelBody, this.state.drag && styles.drag),
         onDragOver: this.handleDragOver.bind(this),
         onDrop: this.handleDrop.bind(this)
       }, React.createElement("button", {
-        className: "upload-btn",
+        className: css(styles.button),
         type: "button",
         onClick: this.triggerSelectFile.bind(this)
       }, "Upload File"), React.createElement("input", {
@@ -932,12 +985,12 @@ function (_React$Component) {
       }), this.state.filesInUpload.map(function (file) {
         return file.complete ? React.createElement("div", {
           key: file.index,
-          className: classNames('file-item', file.success ? 'success' : 'error')
+          className: css(styles.fileItem, file.success ? styles.success : styles.error)
         }, React.createElement("span", {
           className: "file-text"
         }, file.name)) : React.createElement("div", {
           key: file.index,
-          className: "file-item"
+          className: css(styles.fileItem)
         }, React.createElement("span", {
           className: css(styles.fileText)
         }, file.name, " : ", file.progress, " %"), React.createElement("div", {
@@ -957,13 +1010,6 @@ function (_React$Component) {
 module.exports = Form;
 
 /***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(12);
-
-
-/***/ }),
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -973,8 +1019,8 @@ module.exports = __webpack_require__(12);
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var __chunk_1 = __webpack_require__(13);
-__webpack_require__(2);
 __webpack_require__(3);
+__webpack_require__(4);
 
 /* @flow */
 var useImportant = false; // Don't add !important to style definitions
@@ -1012,8 +1058,8 @@ exports.resetInjectedStyle = resetInjectedStyle;
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var stringHash = _interopDefault(__webpack_require__(2));
-var asap = _interopDefault(__webpack_require__(3));
+var stringHash = _interopDefault(__webpack_require__(3));
+var asap = _interopDefault(__webpack_require__(4));
 
 function _typeof(obj) {
   if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
@@ -3493,58 +3539,25 @@ exports.notify = function(msg) {
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2017 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-/* global define */
+var _require = __webpack_require__(2),
+    StyleSheet = _require.StyleSheet,
+    css = _require.css;
 
-(function () {
-	'use strict';
+var React = __webpack_require__(0);
 
-	var hasOwn = {}.hasOwnProperty;
+var styles = StyleSheet.create({
+  h1: {
+    color: '#FFF',
+    margin: '0 0 16px 0',
+    fontSize: '24px'
+  }
+});
 
-	function classNames () {
-		var classes = [];
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if (argType === 'string' || argType === 'number') {
-				classes.push(arg);
-			} else if (Array.isArray(arg) && arg.length) {
-				var inner = classNames.apply(null, arg);
-				if (inner) {
-					classes.push(inner);
-				}
-			} else if (argType === 'object') {
-				for (var key in arg) {
-					if (hasOwn.call(arg, key) && arg[key]) {
-						classes.push(key);
-					}
-				}
-			}
-		}
-
-		return classes.join(' ');
-	}
-
-	if ( true && module.exports) {
-		classNames.default = classNames;
-		module.exports = classNames;
-	} else if (true) {
-		// register as 'classnames', consistent with npm package name
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () {
-			return classNames;
-		}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else {}
-}());
-
+module.exports = function (props) {
+  return React.createElement("h1", {
+    className: css(styles.h1)
+  }, props.children);
+};
 
 /***/ })
 /******/ ]);

@@ -1,8 +1,9 @@
 const { StyleSheet, css } = require('aphrodite/no-important');
 const React = require('react');
 
-const utils = require('./utils');
-const classNames = require('classnames');
+const utils = require('../utils');
+
+const H1 = require('./h1');
 
 const styles = StyleSheet.create({
 	fileText : {
@@ -21,6 +22,54 @@ const styles = StyleSheet.create({
 	},
 	uploadInput : {
 		display : 'none',
+	},
+	panelBody : {
+		backgroundColor : '#234',
+		borderRadius : '4px',
+		padding : '8px',
+		marginb : '16px 0',
+	},
+	drag : {
+		backgroundColor : '#468',
+	},
+	button : {
+		padding : '8px 16px',
+		fontSize : '18px',
+		lineHeight : '1.3333333',
+		borderRadius: '6px',
+		color: '#ffffff',
+		backgroundColor: '#F89406',
+		border: 'none',
+		':hover' : {
+			color : '#FFF',
+			backgroundColor : '#FA8900',
+		},
+		':focus' : {
+			color : '#FFF',
+			backgroundColor : '#FA8900',
+		},
+		':active' : {
+			color : '#FFF',
+			backgroundColor : '#FA8900',
+		},
+	},
+	fileItem : {
+		margin: '4px 0',
+		padding: '4px 8px',
+		borderRadius: '4px',
+		height: '20px',
+		lineHeight: '20px',
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis',
+		clear: 'both',
+		backgroundColor : '#37b',
+		overflowX : 'hidden',
+	},
+	error : {
+		backgroundColor : '#800',
+	},
+	success : {
+		backgroundColor : '#080',
 	},
 });
 
@@ -154,24 +203,24 @@ class Form extends React.Component {
 	render() {
 		return (
 			<React.Fragment>
-				<h1>{"Uploader"}</h1>
+				<H1>{"Uploader"}</H1>
 				<div
-					className={classNames('panel-body', this.state.drag && 'drag')}
+					className={css(styles.panelBody, this.state.drag && styles.drag)}
 					onDragOver={this.handleDragOver.bind(this)}
 					onDrop={this.handleDrop.bind(this)}
 				>
-					<button className="upload-btn" type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
+					<button className={css(styles.button)} type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
 					<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} ref={this.uploadInputRef} />
 
 					{this.state.filesInUpload.map(file => file.complete ?
 						<div
 							key={file.index}
-							className={classNames('file-item', file.success ? 'success' : 'error')}
+							className={css(styles.fileItem, file.success ? styles.success : styles.error)}
 						>
 							<span className="file-text">{file.name}</span>
 						</div>
 					:
-						<div key={file.index} className="file-item">
+						<div key={file.index} className={css(styles.fileItem)}>
 							<span className={css(styles.fileText)}>{file.name} : {file.progress} %</span>
 							<div className={css(styles.progressBar)} role="progressbar" style={{width : file.progress+'%'}} />
 						</div>

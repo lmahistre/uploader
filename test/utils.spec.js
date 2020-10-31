@@ -1,5 +1,5 @@
 describe('utils', function() {
-	const utils = require('../../server/app/utils');
+	const utils = require('../server/app/utils');
 
 	it('findNewName', function() {
 		expect(utils.findNewName('a.txt')).toBe('a (0).txt');

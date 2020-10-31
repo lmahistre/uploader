@@ -11,14 +11,6 @@ exports.js = function() {
 	});
 }
 
-exports.css = function() {
-	return compiler.css(config.css).then(function() {
-		console.log(chalk.green('CSS successfully compiled'));
-	}).catch(function(error) {
-		console.log(chalk.red(error));
-	});
-}
-
 exports.test = function() {
 	const jest = require('jest');
 	const path = require('path');
