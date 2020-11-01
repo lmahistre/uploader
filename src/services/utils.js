@@ -1,3 +1,12 @@
+exports.readableSize = function(size) {
+	if (size > 2500000) {
+		return parseInt(size / (1024 * 1024)) + 'M';
+	}
+	else {
+		return parseInt(size / 1024) + 'k';
+	}
+}
+
 exports.notify = function(msg) {
 	if (window.Notification) {
 		var options = {

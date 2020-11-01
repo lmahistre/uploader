@@ -15,6 +15,10 @@ const homeDir = os.homedir();
 
 module.exports = function(options) {
 	const uploadDir = options.uploadFolder && path.resolve(options.uploadFolder) || path.join(homeDir, config.uploadFolder);
+	const downloadRootFolder = path.join(rootFolder, config.downloadRoot);
+	if (!fs.existsSync(downloadRootFolder)) {
+		fs.mkdirSync(downloadRootFolder);
+	}
 
 	const app = express();
 	app.use(express.static(path.join(rootFolder, 'front')));
@@ -91,6 +95,48 @@ module.exports = function(options) {
 		});
 
 		form.parse(req);
+	});
+
+	app.use('/file', express.static(downloadRootFolder));
+
+	app.get('/getFileList', function(req, res) {
+		const queryDir = req.query && req.query.dir || '';
+		const files = [];
+		const folders = [];
+		try {
+			const absoluteDir = path.resolve(downloadRootFolder + queryDir);
+			const dirContent = fs.readdirSync(absoluteDir);
+			for (let i=0; i<dirContent.length; i++) {
+				const filePath = path.join(absoluteDir, dirContent[i]);
+				const file = {
+					name : dirContent[i],
+				}
+
+				try {
+					const stats = fs.statSync(filePath);
+					file.isDir = stats.isDirectory();
+					file.size = stats.size;
+				}
+				catch (error) {
+					file.error = true;
+				}
+				if (file.isDir) {
+					folders.push(file);
+				}
+				else {
+					files.push(file);
+				}
+			}
+			res.status(200).json({
+				dir : queryDir || '',
+				files : folders.concat(files),
+			});
+		}
+		catch(error) {
+			res.status(200).json({
+				error : error.message,
+			});
+		}
 	});
 
 	const port = options.port && parseInt(options.port) || config.port;

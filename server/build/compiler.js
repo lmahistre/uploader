@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-const less = require('less');
 const webpack = require('webpack');
 
 exports.js = function(config) {
@@ -25,11 +24,7 @@ exports.js = function(config) {
 	});
 }
 
-exports.test = function(config, callback) {
+exports.test = function(config) {
 	const jest = require('jest');
-	jest.runCLI(config, [config.rootDir]).then(function(success) {
-		if (callback && typeof callback === 'function') {
-			callback(success);
-		}
-	});
+	return jest.runCLI(config, [config.rootDir]);
 }

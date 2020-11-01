@@ -1,9 +1,7 @@
 const { StyleSheet, css } = require('aphrodite/no-important');
 const React = require('react');
 
-const utils = require('../utils');
-
-const H1 = require('./h1');
+const utils = require('../services/utils');
 
 const styles = StyleSheet.create({
 	fileText : {
@@ -202,31 +200,28 @@ class Form extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
-				<H1>{"Uploader"}</H1>
-				<div
-					className={css(styles.panelBody, this.state.drag && styles.drag)}
-					onDragOver={this.handleDragOver.bind(this)}
-					onDrop={this.handleDrop.bind(this)}
-				>
-					<button className={css(styles.button)} type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
-					<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} ref={this.uploadInputRef} />
+			<div
+				className={css(styles.panelBody, this.state.drag && styles.drag)}
+				onDragOver={this.handleDragOver.bind(this)}
+				onDrop={this.handleDrop.bind(this)}
+			>
+				<button className={css(styles.button)} type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
+				<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} ref={this.uploadInputRef} />
 
-					{this.state.filesInUpload.map(file => file.complete ?
-						<div
-							key={file.index}
-							className={css(styles.fileItem, file.success ? styles.success : styles.error)}
-						>
-							<span className="file-text">{file.name}</span>
-						</div>
-					:
-						<div key={file.index} className={css(styles.fileItem)}>
-							<span className={css(styles.fileText)}>{file.name} : {file.progress} %</span>
-							<div className={css(styles.progressBar)} role="progressbar" style={{width : file.progress+'%'}} />
-						</div>
-					)}
-				</div>
-			</React.Fragment>
+				{this.state.filesInUpload.map(file => file.complete ?
+					<div
+						key={file.index}
+						className={css(styles.fileItem, file.success ? styles.success : styles.error)}
+					>
+						<span className="file-text">{file.name}</span>
+					</div>
+				:
+					<div key={file.index} className={css(styles.fileItem)}>
+						<span className={css(styles.fileText)}>{file.name} : {file.progress} %</span>
+						<div className={css(styles.progressBar)} role="progressbar" style={{width : file.progress+'%'}} />
+					</div>
+				)}
+			</div>
 		);
 	}
 }
