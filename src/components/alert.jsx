@@ -13,10 +13,8 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = class Alert extends React.Component {
-	render() {
-		return (
-			<div className={css(styles.alert)}>{this.props.children}</div>
-		);
-	}
+module.exports = function Alert(props) {
+	return (
+		<div className={css(styles.alert)}>{props.children}</div>
+	);
 }

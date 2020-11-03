@@ -32,6 +32,9 @@ module.exports = function(options) {
 		const remoteIp = req.ip.split(':').pop();
 		const files = [];
 
+		let clientFileName;
+		let serverFileName;
+
 		form.maxFileSize = options.maxFileSize || config.maxFileSize;
 		form.multiples = true;
 		form.uploadDir = uploadDir;
@@ -49,7 +52,7 @@ module.exports = function(options) {
 			files.push({
 				serverFileName,
 				clientFileName,
-			})
+			});
 			fs.renameSync(file.path, path.join(uploadDir, serverFileName));
 		});
 
@@ -73,7 +76,7 @@ module.exports = function(options) {
 				}
 			}
 			else {
-				msg = files[0].serverFileName + ' has been uploaded from ' + chalk.green(remoteIp);
+				msg = chalk.yellow(files[0].serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp);
 				if (files[0].clientFileName !== files[0].serverFileName) {
 					msg += ' (original name: '+chalk.yellow(clientFileName)+')';
 				}
@@ -110,7 +113,7 @@ module.exports = function(options) {
 				const filePath = path.join(absoluteDir, dirContent[i]);
 				const file = {
 					name : dirContent[i],
-				}
+				};
 
 				try {
 					const stats = fs.statSync(filePath);
@@ -140,7 +143,7 @@ module.exports = function(options) {
 	});
 
 	const port = options.port && parseInt(options.port) || config.port;
-	const server = app.listen(port, function() {
+	app.listen(port, function() {
 		const ifaces = os.networkInterfaces();
 		for (let k in ifaces) {
 			ifaces[k].map(function(interface) {
@@ -151,4 +154,4 @@ module.exports = function(options) {
 		}
 		console.log('Uploads in folder: ' + chalk.green(uploadDir));
 	});
-}
+};

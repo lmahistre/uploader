@@ -7,4 +7,4 @@ window.onload = function () {
 		React.createElement(Main, null), 
 		document.getElementById('react-root')
 	);
-}
+};

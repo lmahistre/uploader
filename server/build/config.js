@@ -1,8 +1,6 @@
 const path = require('path');
 const appDirName = path.resolve(__dirname+'/../..');
 
-const resolve = relativePath => path.resolve(__dirname, '..', relativePath)
-
 module.exports = {
 	js : {
 		mode: 'production',
@@ -12,7 +10,7 @@ module.exports = {
 					test: /\.jsx$/,
 					exclude: /node_modules/,
 					use: {
-						loader: "babel-loader",
+						loader: 'babel-loader',
 					},
 				},
 				{
@@ -32,7 +30,7 @@ module.exports = {
 			],
 		},
 		entry : {
-			app : appDirName+"/src/entry.js",
+			app : appDirName + '/src/entry.js',
 		},
 		resolve : {
 			extensions : ['.js', '.jsx',],
@@ -52,7 +50,7 @@ module.exports = {
 		],
 		verbose : false,
 		transform: {
-			"^.+\\.jsx?$": "babel-jest"
+			'^.+\\.jsx?$': 'babel-jest',
 		},
 	},
 };

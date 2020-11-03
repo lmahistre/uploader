@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const webpack = require('webpack');
 
 exports.js = function(config) {
@@ -22,9 +20,9 @@ exports.js = function(config) {
 			}
 		});
 	});
-}
+};
 
 exports.test = function(config) {
 	const jest = require('jest');
 	return jest.runCLI(config, [config.rootDir]);
-}
+};

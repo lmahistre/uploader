@@ -4,4 +4,4 @@ module.exports = {
 	uploadFolder : 'Downloads',
 	notify : true,
 	downloadRoot : 'dirs',
-}
+};

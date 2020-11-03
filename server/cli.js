@@ -3,13 +3,13 @@ const chalk = require('chalk');
 const tasks = require('./build/tasks');
 const utils = require('./app/utils');
 
-exports.test = function (args) {
+exports.test = function () {
 	tasks.test();
-}
+};
 
-exports.build = function(args) {
+exports.build = function() {
 	tasks.js();
-}
+};
 
 exports.start = function(args) {
 	const options = {};
@@ -27,17 +27,17 @@ exports.start = function(args) {
 		options.maxFileSize = maxFileSize;
 	}
 	require('./app/server')(options);
-}
+};
 
 exports.default = function() {
 	console.log('No action specified');
-}
+};
 
 exports.error = function(error) {
 	console.log(chalk.red(error));
-}
+};
 
 exports.version = function() {
 	const package = require('../package.json');
 	console.log(chalk.green('Version ' + package.version));
-}
+};

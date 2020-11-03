@@ -9,12 +9,10 @@ exports.js = function() {
 	}).catch(function(error) {
 		console.log(chalk.red(error));
 	});
-}
+};
 
 exports.test = function() {
 	const jest = require('jest');
-	const path = require('path');
-	const appDirName = path.resolve(__dirname+'/../src/spec');
 	const options = config.test;
 	return jest.runCLI(options, [options.rootDir]);
-}
+};

@@ -4,9 +4,10 @@
   "description": "An AJAX file uploader using React and NodeJS",
   "main": "app.js",
   "scripts": {
-    "test": "nodejs index.js test",
     "build": "node index.js build",
-    "start": "node index.js start"
+    "lint": "eslint server/ src/",
+    "start": "node index.js start",
+    "test": "nodejs index.js test"
   },
   "author": "Lionel Mahistre",
   "license": "MIT",
@@ -24,6 +25,8 @@
     "@babel/preset-react": "7.10.4",
     "aphrodite": "2.4.0",
     "babel-loader": "8.1.0",
+    "eslint": "^7.12.1",
+    "eslint-plugin-react": "^7.21.5",
     "prop-types": "15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -38,5 +41,44 @@
     "plugins": [
       "@babel/plugin-proposal-class-properties"
     ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es2021": true,
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12
+    },
+    "plugins": [
+      "react"
+    ],
+    "rules": {
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ]
+    }
   }
 }
