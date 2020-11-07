@@ -17,4 +17,4 @@ module.exports = function Alert(props) {
 	return (
 		<div className={css(styles.alert)}>{props.children}</div>
 	);
-}
+};

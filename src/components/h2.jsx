@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function(props) {
+module.exports = function H2(props) {
 	return (
 		<h2 className={css(styles.h2)}>{props.children}</h2>
 	);
-}
+};

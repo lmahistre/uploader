@@ -114,7 +114,7 @@ class Form extends React.Component {
 					}
 				}, false);
 
-				xhr.upload.addEventListener('load', function(event) {
+				xhr.upload.addEventListener('load', function() {
 					setTimeout(function() {
 						let success;
 						let error;
@@ -145,7 +145,6 @@ class Form extends React.Component {
 							}
 						}
 
-						let fileInUploadIndex;
 						for (let j=0; j<filesInUpload.length; j++) {
 							if (fileInUpload.index === filesInUpload[j].index) {
 								filesInUpload[j].complete = true;
@@ -169,7 +168,6 @@ class Form extends React.Component {
 	}
 
 	upload(event) {
-		const self = this;
 		const files = event.target.files;
 		this.uploadFiles(files);
 	}
@@ -205,7 +203,7 @@ class Form extends React.Component {
 				onDragOver={this.handleDragOver.bind(this)}
 				onDrop={this.handleDrop.bind(this)}
 			>
-				<button className={css(styles.button)} type="button" onClick={this.triggerSelectFile.bind(this)}>{"Upload File"}</button>
+				<button className={css(styles.button)} type="button" onClick={this.triggerSelectFile.bind(this)}>Upload File</button>
 				<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={this.upload.bind(this)} ref={this.uploadInputRef} />
 
 				{this.state.filesInUpload.map(file => file.complete ?

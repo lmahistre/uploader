@@ -62,6 +62,14 @@
     "plugins": [
       "react"
     ],
+    "overrides": [
+      {
+        "files": [
+          "*.js",
+          "*.jsx"
+        ]
+      }
+    ],
     "rules": {
       "indent": [
         "error",
@@ -78,7 +86,9 @@
       "semi": [
         "error",
         "always"
-      ]
+      ],
+      "indent": ["warn", "tab"],
+      "react/prop-types": 0
     }
   }
 }

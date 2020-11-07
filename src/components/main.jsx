@@ -6,6 +6,7 @@ const actions = require('../services/actions');
 const Alert = require('./alert');
 const Form = require('./form');
 const H1 = require('./h1');
+const H2 = require('./h2');
 const Loader = require('./loader');
 const FileRow = require('./file-row');
 
@@ -70,7 +71,7 @@ module.exports = class Main extends React.Component {
 			files : [],
 			search : '',
 			loading : false,
-		}
+		};
 	}
 
 	updateFileList(dirName) {
@@ -141,21 +142,21 @@ module.exports = class Main extends React.Component {
 		return (
 			<React.Fragment>
 				<H1>File Share</H1>
-					<Form/>
-					<div className={css(styles.folderIndicator)}>
-						{this.state.loading ?
-							<Loader/>
-						:
-							this.state.currentDir && (
-								<button onClick={this.parentDir.bind(this)} className={css(styles.button)}>
-									<ArrowCircleUpIcon/>
-								</button>
-							)
-						}
-						{this.state.currentDir &&
-							<H2>{this.state.currentDir}</H2>
-						}
-					</div>
+				<Form/>
+				<div className={css(styles.folderIndicator)}>
+					{this.state.loading ?
+						<Loader/>
+					:
+						this.state.currentDir && (
+							<button onClick={this.parentDir.bind(this)} className={css(styles.button)}>
+								<ArrowCircleUpIcon/>
+							</button>
+						)
+					}
+					{this.state.currentDir &&
+						<H2>{this.state.currentDir}</H2>
+					}
+				</div>
 				{this.state.error && <Alert>{this.state.error}</Alert>}
 				<div className={css(styles.searchContainer)}>
 					<SearchIcon className={css(styles.searchIcon)} />
@@ -173,4 +174,4 @@ module.exports = class Main extends React.Component {
 			</React.Fragment>
 		);
 	}
-}
+};

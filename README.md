@@ -20,6 +20,6 @@ All types of files can be uploaded, so it may be dangerous to leave a port open 
 
 `npm start` : Start server with no options
 
-`npm run build` : Build static assets (Javascript and CSS)
+`npm run build` : Build Javascript bundle
 
 `npm test` : Run unit tests

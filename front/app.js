@@ -791,13 +791,15 @@ var Form = __webpack_require__(20);
 
 var H1 = __webpack_require__(21);
 
-var Loader = __webpack_require__(22);
+var H2 = __webpack_require__(22);
 
-var FileRow = __webpack_require__(24);
+var Loader = __webpack_require__(23);
 
-var ArrowCircleUpIcon = __webpack_require__(28)["default"];
+var FileRow = __webpack_require__(25);
 
-var SearchIcon = __webpack_require__(29)["default"];
+var ArrowCircleUpIcon = __webpack_require__(29)["default"];
+
+var SearchIcon = __webpack_require__(30)["default"];
 
 var styles = StyleSheet.create({
   fileList: {
@@ -3723,7 +3725,7 @@ var Form = /*#__PURE__*/function (_React$Component) {
               });
             }
           }, false);
-          xhr.upload.addEventListener('load', function (event) {
+          xhr.upload.addEventListener('load', function () {
             setTimeout(function () {
               var success;
               var error;
@@ -3753,8 +3755,6 @@ var Form = /*#__PURE__*/function (_React$Component) {
                   utils.notify('Upload of file "' + file.name + '" failed');
                 }
               }
-
-              var fileInUploadIndex;
 
               for (var j = 0; j < filesInUpload.length; j++) {
                 if (fileInUpload.index === filesInUpload[j].index) {
@@ -3786,7 +3786,6 @@ var Form = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "upload",
     value: function upload(event) {
-      var self = this;
       var files = event.target.files;
       this.uploadFiles(files);
     }
@@ -3880,7 +3879,7 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = function (props) {
+module.exports = function H1(props) {
   return /*#__PURE__*/React.createElement("h1", {
     className: css(styles.h1)
   }, props.children);
@@ -3896,7 +3895,29 @@ var _require = __webpack_require__(1),
 
 var React = __webpack_require__(0);
 
-var ClockIcon = __webpack_require__(23)["default"];
+var styles = StyleSheet.create({
+  h2: {
+    margin: '0 4px'
+  }
+});
+
+module.exports = function H2(props) {
+  return /*#__PURE__*/React.createElement("h2", {
+    className: css(styles.h2)
+  }, props.children);
+};
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var _require = __webpack_require__(1),
+    StyleSheet = _require.StyleSheet,
+    css = _require.css;
+
+var React = __webpack_require__(0);
+
+var ClockIcon = __webpack_require__(24)["default"];
 
 var styles = StyleSheet.create({
   container: {
@@ -3916,7 +3937,7 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = function Loader(props) {
+module.exports = function Loader() {
   return /*#__PURE__*/React.createElement("div", {
     className: css(styles.container)
   }, /*#__PURE__*/React.createElement(ClockIcon, {
@@ -3925,7 +3946,7 @@ module.exports = function Loader(props) {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3953,7 +3974,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 });
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var _require = __webpack_require__(1),
@@ -3964,11 +3985,11 @@ var React = __webpack_require__(0);
 
 var utils = __webpack_require__(5);
 
-var BanIcon = __webpack_require__(25)["default"];
+var BanIcon = __webpack_require__(26)["default"];
 
-var FileIcon = __webpack_require__(26)["default"];
+var FileIcon = __webpack_require__(27)["default"];
 
-var FolderIcon = __webpack_require__(27)["default"];
+var FolderIcon = __webpack_require__(28)["default"];
 
 var styles = StyleSheet.create({
   elt: {
@@ -4031,7 +4052,7 @@ module.exports = function FileRow(props) {
 };
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4059,7 +4080,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 });
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4087,7 +4108,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 });
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4115,7 +4136,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 });
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4143,7 +4164,7 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 });
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

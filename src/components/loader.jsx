@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function Loader (props) {
+module.exports = function Loader() {
 	return (
 		<div className={css(styles.container)}>
 			<ClockIcon className={css(styles.icon)} />
 		</div>
 	);
-}
+};
