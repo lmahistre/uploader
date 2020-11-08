@@ -7,7 +7,7 @@
     "build": "node index.js build",
     "lint": "eslint server/ src/",
     "start": "node index.js start",
-    "test": "nodejs index.js test"
+    "test": "node index.js test"
   },
   "author": "Lionel Mahistre",
   "license": "MIT",
