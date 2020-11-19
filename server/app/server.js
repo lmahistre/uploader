@@ -13,6 +13,32 @@ const utils = require('./utils');
 const rootFolder = path.resolve(__dirname+'/../..');
 const homeDir = os.homedir();
 
+const ifaces = os.networkInterfaces();
+const localIps = [];
+for (let k in ifaces) {
+	ifaces[k].map(function(interface) {
+		if (interface.family === 'IPv4') {
+			localIps.push(interface.address);
+		}
+	});
+}
+
+const isAdmin = function(req) {
+	const remoteIp = req.ip.split(':').pop();
+	return localIps.indeoxOf(remoteIp) > -1;
+}
+
+const isAdminMiddleware = function(req, res, next) {
+  if (isAdmin(req)) {
+    next();
+  }
+  else {
+    res.status(400).json({
+      error : 'Missing admin right',
+    });
+  }
+}
+
 module.exports = function(options) {
 	const uploadDir = options.uploadFolder && path.resolve(options.uploadFolder) || path.join(homeDir, config.uploadFolder);
 	const downloadRootFolder = path.join(rootFolder, config.downloadRoot);
@@ -23,8 +49,10 @@ module.exports = function(options) {
 	const app = express();
 	app.use(express.static(path.join(rootFolder, 'front')));
 
-	app.get('/', function(req, res){
-		res.sendFile(path.join(rootFolder, 'front/index.html'));
+	app.get('/', function(req, res) {
+		const remoteIp = req.ip.split(':').pop();
+		console.log(remoteIp)
+		res.sendFile(__dirname+'/front.html');
 	});
 
 	app.post('/upload', function(req, res){
@@ -103,6 +131,7 @@ module.exports = function(options) {
 	app.use('/file', express.static(downloadRootFolder));
 
 	app.get('/getFileList', function(req, res) {
+		// console.log(req)
 		const queryDir = req.query && req.query.dir || '';
 		const files = [];
 		const folders = [];

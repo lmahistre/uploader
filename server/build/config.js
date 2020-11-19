@@ -31,6 +31,7 @@ module.exports = {
 		},
 		entry : {
 			app : appDirName + '/src/entry.js',
+			admin : appDirName + '/src/admin.js',
 		},
 		resolve : {
 			extensions : ['.js', '.jsx',],
