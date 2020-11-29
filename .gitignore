@@ -1,3 +1,4 @@
 dirs
 uploads/*
 node_modules
+*.sqlite

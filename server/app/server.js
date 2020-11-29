@@ -7,6 +7,7 @@ const express = require('express');
 const formidable = require('formidable');
 const notifier = require('node-notifier');
 
+const adminRouter = require('./admin-router');
 const config = require('./config');
 const utils = require('./utils');
 
@@ -25,7 +26,7 @@ for (let k in ifaces) {
 
 const isAdmin = function(req) {
 	const remoteIp = req.ip.split(':').pop();
-	return localIps.indeoxOf(remoteIp) > -1;
+	return localIps.indexOf(remoteIp) > -1;
 }
 
 const isAdminMiddleware = function(req, res, next) {
@@ -50,9 +51,12 @@ module.exports = function(options) {
 	app.use(express.static(path.join(rootFolder, 'front')));
 
 	app.get('/', function(req, res) {
-		const remoteIp = req.ip.split(':').pop();
-		console.log(remoteIp)
-		res.sendFile(__dirname+'/front.html');
+		if (isAdmin(req)) {
+			res.sendFile(__dirname+'/admin.html');
+		}
+		else {
+			res.sendFile(__dirname+'/front.html');
+		}
 	});
 
 	app.post('/upload', function(req, res){
@@ -170,6 +174,8 @@ module.exports = function(options) {
 			});
 		}
 	});
+
+	app.use('/admin', isAdminMiddleware, adminRouter);
 
 	const port = options.port && parseInt(options.port) || config.port;
 	app.listen(port, function() {

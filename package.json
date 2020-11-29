@@ -16,7 +16,9 @@
     "express": "^4.17.1",
     "formidable": "^1.2.1",
     "jest": "^24.9.0",
-    "node-notifier": "^6.0.0"
+    "node-notifier": "^6.0.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.11.1",
@@ -72,7 +74,7 @@
     ],
     "rules": {
       "indent": [
-        "error",
+        "warn",
         "tab"
       ],
       "linebreak-style": [
@@ -87,7 +89,6 @@
         "error",
         "always"
       ],
-      "indent": ["warn", "tab"],
       "react/prop-types": 0
     }
   }

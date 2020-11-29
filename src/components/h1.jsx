@@ -11,6 +11,8 @@ const styles = StyleSheet.create({
 
 module.exports = function H1(props) {
 	return (
-		<h1 className={css(styles.h1)}>{props.children}</h1>
+		<React.Fragment>
+			<h1 className={css(styles.h1)}>{props.children}</h1>
+		</React.Fragment>
 	);
 };

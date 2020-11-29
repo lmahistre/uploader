@@ -3,6 +3,8 @@ const React = require('react');
 
 const utils = require('../services/utils');
 
+const Button = require('./button');
+
 const styles = StyleSheet.create({
 	uploadInput : {
 		display : 'none',
@@ -16,27 +18,27 @@ const styles = StyleSheet.create({
 	drag : {
 		backgroundColor : '#468',
 	},
-	button : {
-		padding : '8px 16px',
-		fontSize : '18px',
-		lineHeight : '1.3333333',
-		borderRadius: '6px',
-		color: '#ffffff',
-		backgroundColor: '#F89406',
-		border: 'none',
-		':hover' : {
-			color : '#FFF',
-			backgroundColor : '#FA8900',
-		},
-		':focus' : {
-			color : '#FFF',
-			backgroundColor : '#FA8900',
-		},
-		':active' : {
-			color : '#FFF',
-			backgroundColor : '#FA8900',
-		},
-	},
+	// button : {
+	// 	padding : '8px 16px',
+	// 	fontSize : '18px',
+	// 	lineHeight : '1.3333333',
+	// 	borderRadius: '6px',
+	// 	color: '#ffffff',
+	// 	backgroundColor: '#F89406',
+	// 	border: 'none',
+	// 	':hover' : {
+	// 		color : '#FFF',
+	// 		backgroundColor : '#FA8900',
+	// 	},
+	// 	':focus' : {
+	// 		color : '#FFF',
+	// 		backgroundColor : '#FA8900',
+	// 	},
+	// 	':active' : {
+	// 		color : '#FFF',
+	// 		backgroundColor : '#FA8900',
+	// 	},
+	// },
 	fileItem : {
 		margin: '4px 0',
 		padding: '4px 8px',
@@ -192,7 +194,7 @@ module.exports = function UploadForm() {
 			onDragOver={handleDragOver}
 			onDrop={handleDrop}
 		>
-			<button className={css(styles.button)} type="button" onClick={triggerSelectFile}>Upload File</button>
+			<Button onClick={triggerSelectFile}>Upload File</Button>
 			<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={upload} ref={uploadInputRef} />
 
 			{filesInUpload.map(file => file.complete ?
