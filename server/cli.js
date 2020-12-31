@@ -41,3 +41,10 @@ exports.version = function() {
 	const package = require('../package.json');
 	console.log(chalk.green('Version ' + package.version));
 };
+
+exports.createDb = function() {
+	const folderModel = require('./models/folder');
+	const uploadModel = require('./models/upload');
+	folderModel.sync();
+	uploadModel.sync();
+};

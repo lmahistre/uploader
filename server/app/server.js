@@ -27,18 +27,18 @@ for (let k in ifaces) {
 const isAdmin = function(req) {
 	const remoteIp = req.ip.split(':').pop();
 	return localIps.indexOf(remoteIp) > -1;
-}
+};
 
 const isAdminMiddleware = function(req, res, next) {
-  if (isAdmin(req)) {
-    next();
-  }
-  else {
-    res.status(400).json({
-      error : 'Missing admin right',
-    });
-  }
-}
+	if (isAdmin(req)) {
+		next();
+	}
+	else {
+		res.status(400).json({
+			error : 'Missing admin right',
+		});
+	}
+};
 
 module.exports = function(options) {
 	const uploadDir = options.uploadFolder && path.resolve(options.uploadFolder) || path.join(homeDir, config.uploadFolder);

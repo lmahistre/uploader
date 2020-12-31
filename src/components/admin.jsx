@@ -6,7 +6,7 @@ const Button = require('./button');
 const FolderSelector = require('./folder-selector');
 const H1 = require('./h1');
 
-module.exports = function(props) {
+module.exports = function Admin() {
 	const [page, setPage] = React.useState('folders');
 	const [folders, setFolders] = React.useState(null);
 
@@ -21,15 +21,15 @@ module.exports = function(props) {
 	console.log(folders);
 	const addFolder = function() {
 		setPage('addFolder');
-	}
+	};
 
 	const backToFolders= function() {
 		setPage('folders');
-	}
+	};
 
 	const selectFolder = function(event) {
 		console.log(event.target.files)
-	}
+	};
 
 	return (
 		<React.Fragment>
@@ -56,4 +56,4 @@ module.exports = function(props) {
 			}
 		</React.Fragment>
 	);
-}
+};

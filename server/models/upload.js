@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const config = require('../build/compiler-config');
+const config = require('../build/config');
 const sequelize = new Sequelize(config.db.sequelize);
 
 module.exports = sequelize.define('upload', {
@@ -10,3 +10,5 @@ module.exports = sequelize.define('upload', {
 	rootFolder : Sequelize.STRING,
 	folder : Sequelize.STRING,
 }, config.db.table);
+
+exports.sync = sequelize.sync;

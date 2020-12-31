@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function({
+module.exports = function Button({
 	children,
 	onClick,
 }) {
 	return (
 		<button className={css(styles.button)} type="button" onClick={onClick}>{children}</button>
 	);
-}
+};

@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "node index.js build",
+    "create-db": "node index.js createDb",
     "lint": "eslint server/ src/",
     "start": "node index.js start",
     "test": "node index.js test"

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function({
+module.exports = function FolderSelector({
 	back,
 }) {
 	const [folder, setFolder] = React.useState('~');
@@ -28,7 +28,7 @@ module.exports = function({
 			setFolder(dir);
 			setContent(files);
 		}).catch(setError);
-	}
+	};
 
 	React.useEffect(getFolderContent, []);
 
@@ -45,4 +45,4 @@ module.exports = function({
 			</div>
 		</React.Fragment>
 	);
-}
+};
