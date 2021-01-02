@@ -40,7 +40,7 @@ module.exports = function FolderSelector({
 			<h3>{folder}</h3>
 			<div className={css(styles.fileList)}>
 				{content && content.map((elt, idx) => (
-					<div key={idx}>{elt.name}</div>
+					<FileItem key={idx} file={elt} />
 				))}
 			</div>
 		</React.Fragment>

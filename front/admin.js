@@ -3645,9 +3645,10 @@ module.exports = function (_ref) {
   }, "Back"), error && /*#__PURE__*/React.createElement(Alert, null, error), /*#__PURE__*/React.createElement("h3", null, folder), /*#__PURE__*/React.createElement("div", {
     className: css(styles.fileList)
   }, content && content.map(function (elt, idx) {
-    return /*#__PURE__*/React.createElement("div", {
-      key: idx
-    }, elt.name);
+    return /*#__PURE__*/React.createElement(FileItem, {
+      key: idx,
+      file: elt
+    });
   })));
 };
 
@@ -3699,8 +3700,10 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = function FileRow(props) {
-  var file = props.file;
+module.exports = function FileItem(_ref) {
+  var currentDir = _ref.currentDir,
+      file = _ref.file,
+      onDirClick = _ref.onDirClick;
 
   if (file.error) {
     return /*#__PURE__*/React.createElement("div", {
@@ -3713,13 +3716,13 @@ module.exports = function FileRow(props) {
   } else {
     return file.isDir ? /*#__PURE__*/React.createElement("div", {
       className: css(styles.elt),
-      onClick: props.onDirClick
+      onClick: onDirClick
     }, /*#__PURE__*/React.createElement(FolderIcon, {
       className: css(styles.icon)
     }), /*#__PURE__*/React.createElement("span", {
       className: css(styles.fileName)
     }, file.name)) : /*#__PURE__*/React.createElement("a", {
-      href: '/file' + encodeURI(props.currentDir + '/' + file.name),
+      href: '/file' + encodeURI(currentDir + '/' + file.name),
       className: css(styles.elt, styles.file)
     }, /*#__PURE__*/React.createElement(FileIcon, {
       className: css(styles.icon)
