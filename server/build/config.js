@@ -72,7 +72,7 @@ module.exports = {
 		},
 		table : {
 			freezeTableName: true,
-			timestamps: false,
+			// timestamps: false,
 		},
 	}
 };

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
 		height: '28px',
 		lineHeight: '20px',
 		textAlign: 'center',
-		backgroundColor: '#F89406',
+		backgroundColor: '#E80',
 		transition: 'width .6s linear',
 		marginTop : '-28px',
 		borderRadius : '2px',

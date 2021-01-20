@@ -5,22 +5,23 @@ const styles = StyleSheet.create({
 	button : {
 		padding : '8px 16px',
 		fontSize : '18px',
-		lineHeight : '1.3333333',
+		lineHeight : '18px',
 		borderRadius: '6px',
-		color: '#ffffff',
-		backgroundColor: '#F89406',
+		color: '#FFF',
+		backgroundColor: '#E50',
 		border: 'none',
+		cursor : 'pointer',
 		':hover' : {
 			color : '#FFF',
-			backgroundColor : '#FA8900',
+			backgroundColor : '#E80',
 		},
 		':focus' : {
 			color : '#FFF',
-			backgroundColor : '#FA8900',
+			backgroundColor : '#E80',
 		},
 		':active' : {
 			color : '#FFF',
-			backgroundColor : '#FA8900',
+			backgroundColor : '#E80',
 		},
 	},
 });

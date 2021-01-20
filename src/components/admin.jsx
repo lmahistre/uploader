@@ -2,11 +2,13 @@ const React = require('react');
 
 const adminActions = require('../services/admin-actions');
 
+const Alert = require('./alert');
 const Button = require('./button');
 const FolderSelector = require('./folder-selector');
 const H1 = require('./h1');
 
 module.exports = function Admin() {
+	const [error, setError] = React.useState(null);
 	const [page, setPage] = React.useState('folders');
 	const [folders, setFolders] = React.useState(null);
 
@@ -14,21 +16,24 @@ module.exports = function Admin() {
 		adminActions.getFolders().then(function(result) {
 			setFolders(result);
 		}).catch(function(error) {
-			console.error(error);
+			setError(error);
 		});
 	}, []);
 
-	console.log(folders);
-	const addFolder = function() {
-		setPage('addFolder');
+	const openFolderSelector = function() {
+		setPage('folderSelector');
 	};
 
 	const backToFolders= function() {
 		setPage('folders');
 	};
 
-	const selectFolder = function(event) {
-		console.log(event.target.files)
+	const selectFolder = function(folderName) {
+		return adminActions.addFolder(folderName).then(adminActions.getFolders).then(function(result) {
+			setFolders(result);
+		}).then(backToFolders).catch(function(error) {
+			setError(error);
+		});
 	};
 
 	return (
@@ -36,19 +41,24 @@ module.exports = function Admin() {
 			<H1>File Share Admin</H1>
 			{page === 'folders' &&
 				<React.Fragment>
-					<Button onClick={addFolder}>Add folder</Button>
-					<table>
-						<thead>
-							<tr>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
+					{error && <Alert>{error}</Alert>}
+					<Button onClick={openFolderSelector}>Add folder</Button>
+					{folders &&
+						<table>
+							<tbody>
+								{folders.map(elt => (
+									<tr key={elt.id}>
+										<td>{elt.name}</td>
+										<td>{elt.path}</td>
+										<td></td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					}
 				</React.Fragment>
 			}
-			{page === 'addFolder' &&
+			{page === 'folderSelector' &&
 				<FolderSelector
 					back={backToFolders}
 					selectFolder={selectFolder}

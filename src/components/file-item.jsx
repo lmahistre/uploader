@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
 		backgroundColor : '#123',
 		padding : '4px 8px',
 		borderRadius : '4px',
-		cursor : 'pointer',
 		display : 'flex',
 		flexDirection : 'row',
 		alignItems : 'center',
@@ -24,6 +23,10 @@ const styles = StyleSheet.create({
 	file : {
 		color : '#EEE',
 		textDecoration : 'none',
+		cursor : 'not-allowed',
+	},
+	folder : {
+		cursor : 'pointer',
 	},
 	icon : {
 		fill : '#EEE',
@@ -38,7 +41,6 @@ const styles = StyleSheet.create({
 });
 
 module.exports = function FileItem({
-	currentDir,
 	file,
 	onDirClick,
 }) {
@@ -52,16 +54,16 @@ module.exports = function FileItem({
 	}
 	else {
 		return file.isDir ? (
-			<div className={css(styles.elt)} onClick={onDirClick}>
+			<div className={css(styles.elt, styles.folder)} onClick={onDirClick}>
 				<FolderIcon className={css(styles.icon)} />
 				<span className={css(styles.fileName)}>{file.name}</span>
 			</div>
 		) : (
-			<a href={'/file'+encodeURI(currentDir+'/'+file.name)} className={css(styles.elt, styles.file)}>
+			<span className={css(styles.elt, styles.file)}>
 				<FileIcon className={css(styles.icon)} />
 				<span className={css(styles.fileName)}>{file.name}</span>
 				<span>{utils.readableSize(file.size)}</span>
-			</a>
+			</span>
 		);
 	}
 };

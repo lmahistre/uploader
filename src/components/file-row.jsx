@@ -37,8 +37,11 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function FileRow (props) {
-	const { file } = props;
+module.exports = function FileRow ({
+	currentDir,
+	file,
+	onDirClick,
+}) {
 	if (file.error) {
 		return (
 			<div className={css(styles.elt)}>
@@ -49,12 +52,12 @@ module.exports = function FileRow (props) {
 	}
 	else {
 		return file.isDir ? (
-			<div className={css(styles.elt)} onClick={props.onDirClick}>
+			<div className={css(styles.elt)} onClick={onDirClick}>
 				<FolderIcon className={css(styles.icon)} />
 				<span className={css(styles.fileName)}>{file.name}</span>
 			</div>
 		) : (
-			<a href={'/file'+encodeURI(props.currentDir+'/'+file.name)} className={css(styles.elt, styles.file)}>
+			<a href={'/file'+encodeURI(currentDir+'/'+file.name)} className={css(styles.elt, styles.file)}>
 				<FileIcon className={css(styles.icon)} />
 				<span className={css(styles.fileName)}>{file.name}</span>
 				<span>{utils.readableSize(file.size)}</span>

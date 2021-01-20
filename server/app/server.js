@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const os = require('os');
 
+const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const express = require('express');
 const formidable = require('formidable');
@@ -10,6 +11,8 @@ const notifier = require('node-notifier');
 const adminRouter = require('./admin-router');
 const config = require('./config');
 const utils = require('./utils');
+
+const folderModel = require('../models/folder');
 
 const rootFolder = path.resolve(__dirname+'/../..');
 const homeDir = os.homedir();
@@ -48,15 +51,16 @@ module.exports = function(options) {
 	}
 
 	const app = express();
+	app.use(bodyParser.json());
 	app.use(express.static(path.join(rootFolder, 'front')));
 
 	app.get('/', function(req, res) {
-		if (isAdmin(req)) {
-			res.sendFile(__dirname+'/admin.html');
-		}
-		else {
+		// if (isAdmin(req)) {
+		// 	res.sendFile(__dirname+'/admin.html');
+		// }
+		// else {
 			res.sendFile(__dirname+'/front.html');
-		}
+		// }
 	});
 
 	app.post('/upload', function(req, res){
@@ -135,41 +139,76 @@ module.exports = function(options) {
 	app.use('/file', express.static(downloadRootFolder));
 
 	app.get('/getFileList', function(req, res) {
-		// console.log(req)
+		const folderId = req.query && parseInt(req.query.folderId);
 		const queryDir = req.query && req.query.dir || '';
 		const files = [];
 		const folders = [];
+		console.log(req.query);
+		console.log(folderId);
+		console.log(queryDir);
 		try {
-			const absoluteDir = path.resolve(downloadRootFolder + queryDir);
-			const dirContent = fs.readdirSync(absoluteDir);
-			for (let i=0; i<dirContent.length; i++) {
-				const filePath = path.join(absoluteDir, dirContent[i]);
-				const file = {
-					name : dirContent[i],
-				};
+			if (queryDir && typeof folderId === 'number') {
+				folderModel.findOne({
+					where : {
+						id : folderId,
+					}
+				}).then(function(result) {
+					// console.log(result);
+					const absoluteDir = path.resolve(result.path + queryDir);
+					console.log(absoluteDir);
+					const dirContent = fs.readdirSync(absoluteDir);
+					for (let i=0; i<dirContent.length; i++) {
+						const filePath = path.join(absoluteDir, dirContent[i]);
+						const file = {
+							name : dirContent[i],
+							isRoot : false,
+						};
 
-				try {
-					const stats = fs.statSync(filePath);
-					file.isDir = stats.isDirectory();
-					file.size = stats.size;
-				}
-				catch (error) {
-					file.error = true;
-				}
-				if (file.isDir) {
-					folders.push(file);
-				}
-				else {
-					files.push(file);
-				}
+						try {
+							const stats = fs.statSync(filePath);
+							file.isDir = stats.isDirectory();
+							file.size = stats.size;
+						}
+						catch (error) {
+							file.error = true;
+						}
+						if (file.isDir) {
+							folders.push(file);
+						}
+						else {
+							files.push(file);
+						}
+					}
+					res.status(200).json({
+						dir : queryDir || '',
+						files : folders.concat(files),
+					});
+				}).catch(function(error) {
+					res.status(400).json({
+						error : error.message,
+					});
+				});
 			}
-			res.status(200).json({
-				dir : queryDir || '',
-				files : folders.concat(files),
-			});
+			else {
+				return folderModel.findAll().then(function(result) {
+					for (let i=0; i<result.length; i++) {
+						const file = {
+							id : result[i].id,
+							name : result[i].name,
+							isDir : true,
+							isRoot : true,
+						};
+						folders.push(file);
+					}
+					res.status(200).json({
+						dir : '',
+						files : folders,
+					});
+				});
+			}
 		}
 		catch(error) {
-			res.status(200).json({
+			res.status(400).json({
 				error : error.message,
 			});
 		}

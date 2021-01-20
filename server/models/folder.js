@@ -5,7 +5,7 @@ const sequelize = new Sequelize(config.db.sequelize);
 module.exports = sequelize.define('folder', {
 	name : Sequelize.STRING,
 	path : Sequelize.STRING,
-	time_created : Sequelize.INTEGER,
+	// time_created : Sequelize.INTEGER,
 	openToUpload : {
 		type : Sequelize.BOOLEAN,
 		defaultValue : 0,

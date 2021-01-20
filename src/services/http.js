@@ -13,21 +13,14 @@ const call = function(uri, post) {
 	}
 
 	return fetch(uri, params).then(function(response) {
-		return response.text();
-	}).then(function(responseText) {
-		return new Promise(function(resolve, reject) {
-			try {
-				const responseData = JSON.parse(responseText);
-				resolve(responseData);
-			}
-			catch (error) {
-				reject(error);
-			}
-		});
-	}).catch(function(error) {
-		return new Promise(function(resolve, reject) {
-			reject(error);
-		});
+		return response.json();
+	}).then(function(json) {
+		if (json.error) {
+			return Promise.reject(json.error);
+		}
+		else {
+			return Promise.resolve(json);
+		}
 	});
 };
 

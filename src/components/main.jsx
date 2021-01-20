@@ -4,11 +4,11 @@ const React = require('react');
 const actions = require('../services/actions');
 
 const Alert = require('./alert');
-const Form = require('./form');
+const FileRow = require('./file-row');
 const H1 = require('./h1');
 const H2 = require('./h2');
 const Loader = require('./loader');
-const FileRow = require('./file-row');
+const UploadForm = require('./upload-form');
 
 const ArrowCircleUpIcon = require('../svg/arrow-circle-up.svg').default;
 const SearchIcon = require('../svg/search.svg').default;
@@ -62,69 +62,47 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = class Main extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			error : null,
-			currentDir : '',
-			files : [],
-			search : '',
-			loading : false,
-		};
-	}
+module.exports = function Main() {
+	const [error, setError] = React.useState(null);
+	const [currentFolderId/*, setCurrentFolderId*/] = React.useState(null);
+	const [currentDir, setCurrentDir] = React.useState('');
+	const [files, setFiles] = React.useState([]);
+	const [loading, setLoading] = React.useState(false);
+	const [searchText, setSearchText] = React.useState('');
 
-	updateFileList(dirName) {
-		const self = this;
-		self.setState({
-			loading : true,
+	const updateFileList = function(folderId, dirName) {
+		setLoading(true);
+		actions.getFileList(folderId, dirName).then(function(result) {
+			setFiles(result.files);
+			setCurrentDir(result.dir);
+			setLoading(false);
+			setSearchText('');
+		}).catch(function(error) {
+			setError(error);
+			setLoading(false);
 		});
-		actions.getFileList(dirName).then(function(result) {
-			if (result.error) {
-				self.setState({
-					error : result.error,
-					loading : false,
-					search : '',
-				});
-			}
-			else {
-				self.setState({
-					files : result.files,
-					currentDir : result.dir,
-					error : null,
-					loading : false,
-					search : '',
-				});
-			}
-		});
-	}
+	};
 
-	componentDidMount() {
-		this.updateFileList();
-	}
+	const getDirFileList = function(folderId, dirName) {
+		updateFileList(folderId, currentDir + '/' +dirName);
+	};
 
-	getDirFileList(dirName) {
-		this.updateFileList(this.state.currentDir + '/' +dirName);
-	}
-
-	parentDir() {
-		if (this.state.currentDir) {
-			const parts = this.state.currentDir.split('/');
+	const parentDir = function() {
+		if (currentDir) {
+			const parts = currentDir.split('/');
 			parts.splice(-1);
-			this.updateFileList(parts.join('/'));
+			updateFileList(currentFolderId, parts.join('/'));
 		}
-	}
+	};
 
-	search(event) {
-		this.setState({
-			search : event.target.value,
-		});
-	}
+	const search = function(event) {
+		setSearchText(event.target.value);
+	};
 
-	showFile(fileName) {
+	const showFile = function(fileName) {
 		let show = true;
-		if (this.state.search) {
-			const parts = this.state.search.toLowerCase().split(' ');
+		if (searchText) {
+			const parts = searchText.toLowerCase().split(' ');
 			for (let i=0; i<parts.length; i++) {
 				if (!parts[i]) {
 					continue;
@@ -136,42 +114,47 @@ module.exports = class Main extends React.Component {
 			}
 		}
 		return show;
-	}
+	};
 
-	render() {
-		return (
-			<React.Fragment>
-				<H1>File Share</H1>
-				<Form/>
-				<div className={css(styles.folderIndicator)}>
-					{this.state.loading ?
-						<Loader/>
-					:
-						this.state.currentDir && (
-							<button onClick={this.parentDir.bind(this)} className={css(styles.button)}>
-								<ArrowCircleUpIcon/>
-							</button>
-						)
-					}
-					{this.state.currentDir &&
-						<H2>{this.state.currentDir}</H2>
-					}
-				</div>
-				{this.state.error && <Alert>{this.state.error}</Alert>}
-				<div className={css(styles.searchContainer)}>
-					<SearchIcon className={css(styles.searchIcon)} />
-					<input type="text" onChange={this.search.bind(this)} value={this.state.search} className={css(styles.search)} />
-				</div>
-				<div className={css(styles.fileList)}>
-					{this.state.files.map(file => this.showFile(file.name) && (
-						<FileRow
-							file={file}
-							onDirClick={this.getDirFileList.bind(this, file.name)}
-							currentDir={this.state.currentDir}
-						/>
-					))}
-				</div>
-			</React.Fragment>
-		);
-	}
+	React.useEffect(function() {
+		updateFileList();
+	}, []);
+
+	console.log(files);
+
+	return (
+		<React.Fragment>
+			<H1>File Share</H1>
+			<UploadForm/>
+			<div className={css(styles.folderIndicator)}>
+				{loading ?
+					<Loader/>
+				:
+					currentDir && (
+						<button onClick={parentDir} className={css(styles.button)}>
+							<ArrowCircleUpIcon/>
+						</button>
+					)
+				}
+				{currentDir &&
+					<H2>{currentDir}</H2>
+				}
+			</div>
+			{error && <Alert>{error}</Alert>}
+			<div className={css(styles.searchContainer)}>
+				<SearchIcon className={css(styles.searchIcon)} />
+				<input type="text" onChange={search} value={searchText} className={css(styles.search)} />
+			</div>
+			<div className={css(styles.fileList)}>
+				{files.filter(file => showFile(file.name)).map(file => (
+					<FileRow
+						key={file.name}
+						file={file}
+						onDirClick={() => getDirFileList(file.id, !file.isRoot ? file.name : '')}
+						currentDir={currentDir}
+					/>
+				))}
+			</div>
+		</React.Fragment>
+	);
 };

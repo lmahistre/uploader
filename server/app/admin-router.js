@@ -8,8 +8,13 @@ const router = express.Router();
 const folderModel = require('../models/folder');
 
 router.get('/getFolders', function(req, res) {
-	folderModel.findAll().then(res.json).catch(function(error) {
-		res.status(400).json({error});
+	folderModel.findAll().then(function(result) {
+		res.json(result);
+	}).catch(function(error) {
+		console.error(error);
+		res.status(400).json({
+			error : error.message,
+		});
 	});
 });
 
@@ -51,6 +56,23 @@ router.get('/getFolderContent', function(req, res) {
 			error : error.message,
 		});
 	}
+});
+
+router.post('/addFolder', function(req, res) {
+	const dirNameParts = req.body.dir.split('/');
+	const dirName = dirNameParts[dirNameParts.length - 1];
+
+	folderModel.create({
+		name : dirName,
+		path : req.body.dir,
+		openToDownload : true,
+	}).then(function(data) {
+		res.json(data);
+	}).catch(function(error) {
+		res.status(400).json({
+			error : error.message,
+		});
+	});
 });
 
 module.exports = router;
