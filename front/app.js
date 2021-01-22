@@ -3574,27 +3574,25 @@ module.exports = function Alert(props) {
 /* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var _require = __webpack_require__(1),
     StyleSheet = _require.StyleSheet,
@@ -3605,20 +3603,6 @@ var React = __webpack_require__(0);
 var utils = __webpack_require__(5);
 
 var styles = StyleSheet.create({
-  fileText: {
-    width: '100%',
-    display: 'block'
-  },
-  progressBar: {
-    "float": 'left',
-    width: '0',
-    height: '20px',
-    lineHeight: '20px',
-    textAlign: 'center',
-    backgroundColor: '#F89406',
-    transition: 'width .6s linear',
-    marginTop: '-20px'
-  },
   uploadInput: {
     display: 'none'
   },
@@ -3661,8 +3645,31 @@ var styles = StyleSheet.create({
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     clear: 'both',
-    backgroundColor: '#37b',
     overflowX: 'hidden'
+  },
+  fileInUpload: {
+    backgroundColor: '#159',
+    padding: '0',
+    height: '28px'
+  },
+  fileText: {
+    width: '100%',
+    display: 'block',
+    padding: '4px 8px',
+    boxSizing: 'border-box'
+  },
+  progressBar: {
+    "float": 'left',
+    width: '0',
+    height: '28px',
+    lineHeight: '20px',
+    textAlign: 'center',
+    backgroundColor: '#F89406',
+    transition: 'width .6s linear',
+    marginTop: '-28px',
+    borderRadius: '2px',
+    padding: '4px 8px',
+    boxSizing: 'border-box'
   },
   error: {
     backgroundColor: '#800'
@@ -3672,194 +3679,154 @@ var styles = StyleSheet.create({
   }
 });
 
-var Form = /*#__PURE__*/function (_React$Component) {
-  _inherits(Form, _React$Component);
+module.exports = function UploadForm() {
+  var _React$useState = React.useState(false),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      drag = _React$useState2[0],
+      setDrag = _React$useState2[1];
 
-  var _super = _createSuper(Form);
+  var _React$useState3 = React.useState([]),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      filesInUpload = _React$useState4[0],
+      setFilesInUpload = _React$useState4[1];
 
-  function Form() {
-    var _this;
+  var uploadInputRef = React.createRef();
 
-    _classCallCheck(this, Form);
-
-    _this = _super.call(this);
-    _this.state = {
-      index: 0,
-      drag: false,
-      filesInUpload: []
-    };
-    _this.uploadInputRef = React.createRef();
-    return _this;
-  }
-
-  _createClass(Form, [{
-    key: "uploadFiles",
-    value: function uploadFiles(files) {
-      var self = this;
-
-      if (files.length > 0) {
-        var _loop = function _loop(i) {
-          var formData = new FormData();
-          var file = files[i];
-          var filesInUpload = self.state.filesInUpload;
-          var fileInUpload = {
-            name: file.name,
-            index: filesInUpload.length,
-            progress: 0,
-            complete: false
-          };
-          formData.append('uploads[]', file, file.name);
-          filesInUpload.push(fileInUpload);
-          self.setState({
-            filesInUpload: filesInUpload
-          });
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', '/upload', true);
-          xhr.upload.addEventListener('progress', function (evt) {
-            if (evt.lengthComputable) {
-              var percentComplete = parseInt(100 * evt.loaded / evt.total);
-              var _filesInUpload = self.state.filesInUpload;
-              _filesInUpload[fileInUpload.index].progress = percentComplete;
-              self.setState({
-                filesInUpload: _filesInUpload
-              });
-            }
-          }, false);
-          xhr.upload.addEventListener('load', function () {
-            setTimeout(function () {
-              var success;
-              var error;
-
-              try {
-                var response = JSON.parse(xhr.response);
-
-                if (response.success) {
-                  success = response.success;
-                } else if (response.error) {
-                  error = response.error;
-                }
-              } catch (err) {
-                error = 'Cannot parse response';
-              }
-
-              var filesInUpload = self.state.filesInUpload;
-
-              if (success) {
-                if (!document.hasFocus()) {
-                  utils.notify('File "' + file.name + '" uploaded');
-                }
-              } else {
-                console.error(error);
-
-                if (!document.hasFocus()) {
-                  utils.notify('Upload of file "' + file.name + '" failed');
-                }
-              }
-
-              for (var j = 0; j < filesInUpload.length; j++) {
-                if (fileInUpload.index === filesInUpload[j].index) {
-                  filesInUpload[j].complete = true;
-
-                  if (success) {
-                    filesInUpload[j].success = success;
-                  }
-
-                  if (error) {
-                    filesInUpload[j].error = error;
-                  }
-                }
-              }
-
-              self.setState({
-                filesInUpload: filesInUpload
-              });
-            }, 100);
-          });
-          xhr.send(formData);
+  var uploadFiles = function uploadFiles(files) {
+    if (files.length > 0) {
+      var _loop = function _loop(i) {
+        var formData = new FormData();
+        var file = files[i];
+        var fileInUpload = {
+          name: file.name,
+          index: filesInUpload.length,
+          progress: 0,
+          complete: false
         };
+        formData.append('uploads[]', file, file.name);
+        filesInUpload.push(fileInUpload);
+        setFilesInUpload(_toConsumableArray(filesInUpload));
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/upload', true);
+        xhr.upload.addEventListener('progress', function (evt) {
+          if (evt.lengthComputable) {
+            var percentComplete = parseInt(100 * evt.loaded / evt.total);
+            filesInUpload[fileInUpload.index].progress = percentComplete;
+            setFilesInUpload(_toConsumableArray(filesInUpload));
+          }
+        }, false);
+        xhr.upload.addEventListener('load', function () {
+          setTimeout(function () {
+            var success;
+            var error;
 
-        for (var i = 0; i < files.length; i++) {
-          _loop(i);
-        }
+            try {
+              var response = JSON.parse(xhr.response);
+
+              if (response.success) {
+                success = response.success;
+              } else if (response.error) {
+                error = response.error;
+              }
+            } catch (err) {
+              error = 'Cannot parse response';
+            }
+
+            if (success) {
+              if (!document.hasFocus()) {
+                utils.notify('File "' + file.name + '" uploaded');
+              }
+            } else {
+              console.error(error);
+
+              if (!document.hasFocus()) {
+                utils.notify('Upload of file "' + file.name + '" failed');
+              }
+            }
+
+            for (var j = 0; j < filesInUpload.length; j++) {
+              if (fileInUpload.index === filesInUpload[j].index) {
+                filesInUpload[j].complete = true;
+
+                if (success) {
+                  filesInUpload[j].success = success;
+                }
+
+                if (error) {
+                  filesInUpload[j].error = error;
+                }
+              }
+            }
+
+            setFilesInUpload(_toConsumableArray(filesInUpload));
+          }, 100);
+        });
+        xhr.send(formData);
+      };
+
+      for (var i = 0; i < files.length; i++) {
+        _loop(i);
       }
     }
-  }, {
-    key: "upload",
-    value: function upload(event) {
-      var files = event.target.files;
-      this.uploadFiles(files);
-    }
-  }, {
-    key: "triggerSelectFile",
-    value: function triggerSelectFile() {
-      this.uploadInputRef.current.click();
-      this.setState({
-        progress: 0
-      });
-    }
-  }, {
-    key: "handleDragOver",
-    value: function handleDragOver(event) {
-      event.stopPropagation();
-      event.preventDefault();
-      this.setState({
-        drag: true
-      });
-    }
-  }, {
-    key: "handleDrop",
-    value: function handleDrop(event) {
-      event.stopPropagation();
-      event.preventDefault();
-      this.setState({
-        drag: false
-      });
-      this.uploadFiles(event.dataTransfer.files);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return /*#__PURE__*/React.createElement("div", {
-        className: css(styles.panelBody, this.state.drag && styles.drag),
-        onDragOver: this.handleDragOver.bind(this),
-        onDrop: this.handleDrop.bind(this)
-      }, /*#__PURE__*/React.createElement("button", {
-        className: css(styles.button),
-        type: "button",
-        onClick: this.triggerSelectFile.bind(this)
-      }, "Upload File"), /*#__PURE__*/React.createElement("input", {
-        className: css(styles.uploadInput),
-        type: "file",
-        name: "uploads[]",
-        multiple: "multiple ",
-        onChange: this.upload.bind(this),
-        ref: this.uploadInputRef
-      }), this.state.filesInUpload.map(function (file) {
-        return file.complete ? /*#__PURE__*/React.createElement("div", {
-          key: file.index,
-          className: css(styles.fileItem, file.success ? styles.success : styles.error)
-        }, /*#__PURE__*/React.createElement("span", {
-          className: "file-text"
-        }, file.name)) : /*#__PURE__*/React.createElement("div", {
-          key: file.index,
-          className: css(styles.fileItem)
-        }, /*#__PURE__*/React.createElement("span", {
-          className: css(styles.fileText)
-        }, file.name, " : ", file.progress, " %"), /*#__PURE__*/React.createElement("div", {
-          className: css(styles.progressBar),
-          role: "progressbar",
-          style: {
-            width: file.progress + '%'
-          }
-        }));
-      }));
-    }
-  }]);
+  };
 
-  return Form;
-}(React.Component);
+  var upload = function upload(event) {
+    var files = event.target.files;
+    uploadFiles(files);
+  };
 
-module.exports = Form;
+  var triggerSelectFile = function triggerSelectFile() {
+    uploadInputRef.current.click();
+  };
+
+  var handleDragOver = function handleDragOver(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    setDrag(true);
+  };
+
+  var handleDrop = function handleDrop(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    setDrag(false);
+    uploadFiles(event.dataTransfer.files);
+  };
+
+  return /*#__PURE__*/React.createElement("div", {
+    className: css(styles.panelBody, drag && styles.drag),
+    onDragOver: handleDragOver,
+    onDrop: handleDrop
+  }, /*#__PURE__*/React.createElement("button", {
+    className: css(styles.button),
+    type: "button",
+    onClick: triggerSelectFile
+  }, "Upload File"), /*#__PURE__*/React.createElement("input", {
+    className: css(styles.uploadInput),
+    type: "file",
+    name: "uploads[]",
+    multiple: "multiple ",
+    onChange: upload,
+    ref: uploadInputRef
+  }), filesInUpload.map(function (file) {
+    return file.complete ? /*#__PURE__*/React.createElement("div", {
+      key: file.index,
+      className: css(styles.fileItem, file.success ? styles.success : styles.error)
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "file-text"
+    }, file.name)) : /*#__PURE__*/React.createElement("div", {
+      key: file.index,
+      className: css(styles.fileItem, styles.fileInUpload)
+    }, /*#__PURE__*/React.createElement("div", {
+      className: css(styles.fileText)
+    }, file.name, " : ", file.progress, " %"), /*#__PURE__*/React.createElement("div", {
+      className: css(styles.progressBar),
+      role: "progressbar",
+      style: {
+        width: file.progress + '%'
+      }
+    }));
+  }));
+};
 
 /***/ }),
 /* 21 */
