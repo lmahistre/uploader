@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
 
 module.exports = function Main() {
 	const [error, setError] = React.useState(null);
-	const [currentFolderId/*, setCurrentFolderId*/] = React.useState(null);
+	const [currentFolderId, setCurrentFolderId] = React.useState(null);
 	const [currentDir, setCurrentDir] = React.useState('');
 	const [files, setFiles] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
@@ -75,6 +75,7 @@ module.exports = function Main() {
 		actions.getFileList(folderId, dirName).then(function(result) {
 			setFiles(result.files);
 			setCurrentDir(result.dir);
+			setCurrentFolderId(result.folderId);
 			setLoading(false);
 			setSearchText('');
 		}).catch(function(error) {
@@ -84,7 +85,7 @@ module.exports = function Main() {
 	};
 
 	const getDirFileList = function(folderId, dirName) {
-		updateFileList(folderId, currentDir + '/' +dirName);
+		updateFileList(folderId, dirName && currentDir + '/' +dirName);
 	};
 
 	const parentDir = function() {
@@ -120,7 +121,7 @@ module.exports = function Main() {
 		updateFileList();
 	}, []);
 
-	console.log(files);
+	// console.log(files);
 
 	return (
 		<React.Fragment>
@@ -137,7 +138,7 @@ module.exports = function Main() {
 					)
 				}
 				{currentDir &&
-					<H2>{currentDir}</H2>
+					<H2>{currentFolderId} {currentDir}</H2>
 				}
 			</div>
 			{error && <Alert>{error}</Alert>}
@@ -150,7 +151,7 @@ module.exports = function Main() {
 					<FileRow
 						key={file.name}
 						file={file}
-						onDirClick={() => getDirFileList(file.id, !file.isRoot ? file.name : '')}
+						onDirClick={() => getDirFileList(file.isRoot ? file.id : currentFolderId, file.isRoot ? '' : file.name)}
 						currentDir={currentDir}
 					/>
 				))}

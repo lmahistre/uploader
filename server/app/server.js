@@ -55,12 +55,16 @@ module.exports = function(options) {
 	app.use(express.static(path.join(rootFolder, 'front')));
 
 	app.get('/', function(req, res) {
-		// if (isAdmin(req)) {
-		// 	res.sendFile(__dirname+'/admin.html');
-		// }
-		// else {
+		res.sendFile(__dirname+'/front.html');
+	});
+
+	app.get('/admin', function(req, res) {
+		if (isAdmin(req)) {
+			res.sendFile(__dirname+'/admin.html');
+		}
+		else {
 			res.sendFile(__dirname+'/front.html');
-		// }
+		}
 	});
 
 	app.post('/upload', function(req, res){
@@ -143,11 +147,11 @@ module.exports = function(options) {
 		const queryDir = req.query && req.query.dir || '';
 		const files = [];
 		const folders = [];
-		console.log(req.query);
+		// console.log(req.query);
 		console.log(folderId);
-		console.log(queryDir);
+		// console.log(queryDir);
 		try {
-			if (queryDir && typeof folderId === 'number') {
+			if (typeof folderId === 'number' && folderId) {
 				folderModel.findOne({
 					where : {
 						id : folderId,
@@ -181,6 +185,7 @@ module.exports = function(options) {
 					}
 					res.status(200).json({
 						dir : queryDir || '',
+						folderId : result.id,
 						files : folders.concat(files),
 					});
 				}).catch(function(error) {

@@ -1,4 +1,6 @@
 dirs
+front/app.js
+front/admin.js
 uploads/*
 node_modules
 *.sqlite
