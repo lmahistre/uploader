@@ -140,16 +140,17 @@ module.exports = function(options) {
 		form.parse(req);
 	});
 
-	app.use('/file', express.static(downloadRootFolder));
+	// app.use('/file', express.static(downloadRootFolder));
+	app.get('/file/:folderId/:filePath', function(req, res) {
+		console.log(req.params);
+		res.json(req.params);
+	});
 
 	app.get('/getFileList', function(req, res) {
 		const folderId = req.query && parseInt(req.query.folderId);
 		const queryDir = req.query && req.query.dir || '';
 		const files = [];
 		const folders = [];
-		// console.log(req.query);
-		console.log(folderId);
-		// console.log(queryDir);
 		try {
 			if (typeof folderId === 'number' && folderId) {
 				folderModel.findOne({
@@ -157,9 +158,7 @@ module.exports = function(options) {
 						id : folderId,
 					}
 				}).then(function(result) {
-					// console.log(result);
 					const absoluteDir = path.resolve(result.path + queryDir);
-					console.log(absoluteDir);
 					const dirContent = fs.readdirSync(absoluteDir);
 					for (let i=0; i<dirContent.length; i++) {
 						const filePath = path.join(absoluteDir, dirContent[i]);

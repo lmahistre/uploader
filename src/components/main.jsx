@@ -153,6 +153,7 @@ module.exports = function Main() {
 						file={file}
 						onDirClick={() => getDirFileList(file.isRoot ? file.id : currentFolderId, file.isRoot ? '' : file.name)}
 						currentDir={currentDir}
+						currentFolderId={currentFolderId}
 					/>
 				))}
 			</div>

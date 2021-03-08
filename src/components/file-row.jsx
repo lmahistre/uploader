@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
 
 module.exports = function FileRow ({
 	currentDir,
+	currentFolderId,
 	file,
 	onDirClick,
 }) {
@@ -57,7 +58,7 @@ module.exports = function FileRow ({
 				<span className={css(styles.fileName)}>{file.name}</span>
 			</div>
 		) : (
-			<a href={'/file'+encodeURI(currentDir+'/'+file.name)} className={css(styles.elt, styles.file)}>
+			<a href={'/file/'+currentFolderId+encodeURI(currentDir+'/'+file.name)} className={css(styles.elt, styles.file)}>
 				<FileIcon className={css(styles.icon)} />
 				<span className={css(styles.fileName)}>{file.name}</span>
 				<span>{utils.readableSize(file.size)}</span>
