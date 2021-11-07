@@ -1,9 +1,9 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Main = require('./components/main');
+import React from 'react';
+import { render } from 'react-dom';
+import Main from './components/main';
 
 window.onload = function () {
-	ReactDOM.render(
+	render(
 		React.createElement(Main, null), 
 		document.getElementById('react-root')
 	);

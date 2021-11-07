@@ -38,8 +38,8 @@ exports.error = function(error) {
 };
 
 exports.version = function() {
-	const package = require('../package.json');
-	console.log(chalk.green('Version ' + package.version));
+	const packageJson = require('../package.json');
+	console.log(chalk.green('Version ' + packageJson.version));
 };
 
 exports.createDb = function() {

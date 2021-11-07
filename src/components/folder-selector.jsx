@@ -1,13 +1,13 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
-const adminActions = require('../services/admin-actions');
+import * as adminActions from '../services/admin-actions';
 
-const Alert = require('./alert');
-const Button = require('./button');
-const FileItem = require('./file-item');
-const H2 = require('./h2');
-const Loader = require('./loader');
+import Alert from './alert';
+import Button from './button';
+import FileItem from './file-item';
+import H2 from './h2';
+import Loader from './loader';
 
 const styles = StyleSheet.create({
 	fileList : {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function FolderSelector({
+export default function FolderSelector({
 	back,
 	selectFolder,
 }) {
@@ -79,4 +79,4 @@ module.exports = function FolderSelector({
 			</div>
 		</React.Fragment>
 	);
-};
+}

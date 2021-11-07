@@ -1,5 +1,5 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
 const styles = StyleSheet.create({
 	alert : {
@@ -13,8 +13,8 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function Alert(props) {
+export default function Alert(props) {
 	return (
 		<div className={css(styles.alert)}>{props.children}</div>
 	);
-};
+}

@@ -58,6 +58,7 @@
       "plugin:react/recommended"
     ],
     "parserOptions": {
+      "sourceType": "module",
       "ecmaFeatures": {
         "jsx": true
       },
@@ -75,10 +76,6 @@
       }
     ],
     "rules": {
-      "indent": [
-        "warn",
-        "tab"
-      ],
       "linebreak-style": [
         "error",
         "unix"

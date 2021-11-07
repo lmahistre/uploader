@@ -1,9 +1,9 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
-const utils = require('../services/utils');
+import * as utils from '../services/utils';
 
-const Button = require('./button');
+import Button from './button';
 
 const styles = StyleSheet.create({
 	uploadInput : {
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function UploadForm() {
+export default function UploadForm() {
 	const [drag, setDrag] = React.useState(false);
 	const [filesInUpload, setFilesInUpload] = React.useState([]);
 
@@ -191,4 +191,4 @@ module.exports = function UploadForm() {
 			)}
 		</div>
 	);
-};
+}

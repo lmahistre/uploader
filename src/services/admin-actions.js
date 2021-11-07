@@ -1,13 +1,13 @@
-const http = require('./http');
+import * as http from './http';
 
-exports.getFolders = function() {
+export function getFolders() {
 	return http.get('/admin/getFolders');
-};
+}
 
-exports.getFolderContent = function(dir) {
+export function getFolderContent(dir) {
 	return http.get('/admin/getFolderContent', {dir});
-};
+}
 
-exports.addFolder = function(dir) {
+export function addFolder(dir) {
 	return http.post('/admin/addFolder', {dir});
-};
+}

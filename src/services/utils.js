@@ -1,13 +1,13 @@
-exports.readableSize = function(size) {
+export function readableSize(size) {
 	if (size > 2500000) {
 		return parseInt(size / (1024 * 1024)) + 'M';
 	}
 	else {
 		return parseInt(size / 1024) + 'k';
 	}
-};
+}
 
-exports.notify = function(msg) {
+export function notify(msg) {
 	if (window.Notification) {
 		const options = {
 			icon : document.querySelector('head link[rel^=shortcut]').href,
@@ -24,4 +24,4 @@ exports.notify = function(msg) {
 			});
 		}
 	}
-};
+}

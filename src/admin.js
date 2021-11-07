@@ -1,9 +1,9 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Admin = require('./components/admin');
+import React from 'react';
+import { render } from 'react-dom';
+import Admin from './components/admin';
 
 window.onload = function () {
-	ReactDOM.render(
+	render(
 		React.createElement(Admin, null), 
 		document.getElementById('react-root')
 	);

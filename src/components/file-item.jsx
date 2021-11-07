@@ -1,11 +1,11 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
-const utils = require('../services/utils');
+import * as utils from '../services/utils';
 
-const BanIcon = require('../svg/ban.svg').default;
-const FileIcon = require('../svg/file.svg').default;
-const FolderIcon = require('../svg/folder.svg').default;
+import BanIcon from '../svg/ban.svg';
+import FileIcon from '../svg/file.svg';
+import FolderIcon from '../svg/folder.svg';
 
 const styles = StyleSheet.create({
 	elt : {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function FileItem({
+export default function FileItem({
 	file,
 	onDirClick,
 }) {
@@ -66,4 +66,4 @@ module.exports = function FileItem({
 			</span>
 		);
 	}
-};
+}

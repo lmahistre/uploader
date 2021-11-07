@@ -1,13 +1,13 @@
-const React = require('react');
+import React from 'react';
 
-const adminActions = require('../services/admin-actions');
+import * as adminActions from '../services/admin-actions';
 
-const Alert = require('./alert');
-const Button = require('./button');
-const FolderSelector = require('./folder-selector');
-const H1 = require('./h1');
+import Alert from './alert';
+import Button from './button';
+import FolderSelector from './folder-selector';
+import H1 from './h1';
 
-module.exports = function Admin() {
+export default function Admin() {
 	const [error, setError] = React.useState(null);
 	const [page, setPage] = React.useState('folders');
 	const [folders, setFolders] = React.useState(null);
@@ -66,4 +66,4 @@ module.exports = function Admin() {
 			}
 		</React.Fragment>
 	);
-};
+}

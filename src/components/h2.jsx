@@ -1,5 +1,5 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
 const styles = StyleSheet.create({
 	h2 : {
@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function H2(props) {
+export default function H2(props) {
 	return (
 		<h2 className={css(styles.h2)}>{props.children}</h2>
 	);
-};
+}

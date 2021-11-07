@@ -1,7 +1,7 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
-const ClockIcon = require('../svg/clock.svg').default;
+import ClockIcon from '../svg/clock.svg';
 
 const styles = StyleSheet.create({
 	container : {
@@ -21,10 +21,10 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function Loader() {
+export default function Loader() {
 	return (
 		<div className={css(styles.container)}>
 			<ClockIcon className={css(styles.icon)} />
 		</div>
 	);
-};
+}

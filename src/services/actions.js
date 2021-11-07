@@ -1,8 +1,8 @@
-const http = require('./http');
+import * as http from './http';
 
-exports.getFileList = function(folderId, dirName) {
+export function getFileList(folderId, dirName) {
 	return http.get('/getFileList', {
 		folderId,
 		dir : dirName,
 	});
-};
+}

@@ -1,5 +1,5 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
 const styles = StyleSheet.create({
 	button : {
@@ -26,11 +26,11 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function Button({
+export default function Button({
 	children,
 	onClick,
 }) {
 	return (
 		<button className={css(styles.button)} type="button" onClick={onClick}>{children}</button>
 	);
-};
+}

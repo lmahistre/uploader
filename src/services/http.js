@@ -1,12 +1,12 @@
-const call = function(uri, post) {
+export function post(uri, body) {
 	const params = {
 		credentials : 'include',
 		cache : 'no-store',
 	};
 
-	if (post) {
+	if (body) {
 		params.method = 'POST';
-		params.body = JSON.stringify(post);
+		params.body = JSON.stringify(body);
 		params.headers = new Headers({  
 			'Content-type': 'application/json; charset=UTF-8',
 		});
@@ -22,15 +22,13 @@ const call = function(uri, post) {
 			return Promise.resolve(json);
 		}
 	});
-};
+}
 
-exports.post = call;
-
-exports.get = function(uri, params) {
+export function get(uri, params) {
 	const queryElts = [];
 	for (let k in params) {
 		queryElts.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k]));
 	}
 	const newUri = queryElts.length ? uri + '?' + queryElts.join('&') : uri;
-	return call(newUri);
-};
+	return post(newUri);
+}

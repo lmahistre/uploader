@@ -20,9 +20,9 @@ const homeDir = os.homedir();
 const ifaces = os.networkInterfaces();
 const localIps = [];
 for (let k in ifaces) {
-	ifaces[k].map(function(interface) {
-		if (interface.family === 'IPv4') {
-			localIps.push(interface.address);
+	ifaces[k].map(function(iface) {
+		if (iface.family === 'IPv4') {
+			localIps.push(iface.address);
 		}
 	});
 }
@@ -224,9 +224,9 @@ module.exports = function(options) {
 	app.listen(port, function() {
 		const ifaces = os.networkInterfaces();
 		for (let k in ifaces) {
-			ifaces[k].map(function(interface) {
-				if (interface.family === 'IPv4') {
-					console.log('Server running on ' + interface.address + ':' + port);
+			ifaces[k].map(function(iface) {
+				if (iface.family === 'IPv4') {
+					console.log('Server running on ' + iface.address + ':' + port);
 				}
 			});
 		}

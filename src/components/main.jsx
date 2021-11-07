@@ -1,17 +1,17 @@
-const { StyleSheet, css } = require('aphrodite/no-important');
-const React = require('react');
+import { StyleSheet, css } from 'aphrodite/no-important';
+import React from 'react';
 
-const actions = require('../services/actions');
+import * as actions from '../services/actions';
 
-const Alert = require('./alert');
-const FileRow = require('./file-row');
-const H1 = require('./h1');
-const H2 = require('./h2');
-const Loader = require('./loader');
-const UploadForm = require('./upload-form');
+import Alert from './alert';
+import FileRow from './file-row';
+import H1 from './h1';
+import H2 from './h2';
+import Loader from './loader';
+import UploadForm from './upload-form';
 
-const ArrowCircleUpIcon = require('../svg/arrow-circle-up.svg').default;
-const SearchIcon = require('../svg/search.svg').default;
+import ArrowCircleUpIcon from '../svg/arrow-circle-up.svg';
+import SearchIcon from '../svg/search.svg';
 
 const styles = StyleSheet.create({
 	fileList : {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 	},
 });
 
-module.exports = function Main() {
+export default function Main() {
 	const [error, setError] = React.useState(null);
 	const [currentFolderId, setCurrentFolderId] = React.useState(null);
 	const [currentDir, setCurrentDir] = React.useState('');
@@ -159,4 +159,4 @@ module.exports = function Main() {
 			</div>
 		</React.Fragment>
 	);
-};
+}
