@@ -142,12 +142,42 @@ module.exports = function(options) {
 
 	// app.use('/file', express.static(downloadRootFolder));
 	app.get('/file/:folderId/:filePath', function(req, res) {
-		console.log(req.params);
-		res.json(req.params);
+		const folderId = req.params && req.params.folderId && parseInt(req.params.folderId);
+		const { filePath } = req.params;
+
+		if (typeof folderId === 'number' && folderId) {
+			folderModel.findOne({
+				where : {
+					id : folderId,
+				}
+			}).then(function(result) {
+				if (result && result.path) {
+					const fullPath = result.path + '/' + filePath;
+					if (fs.existsSync(fullPath)) {
+						res.sendFile(fullPath);
+					}
+					else {
+						return Promise.reject('File not found');
+					}
+				}
+				else {
+					return Promise.reject('Folder not found');
+				}
+			}).catch(function(error) {
+				res.status(400).json({
+					error : error && error.message || error,
+				});
+			});
+		}
+		else {
+			res.status(400).json({
+				error : 'Unknown folder',
+			});
+		}
 	});
 
 	app.get('/getFileList', function(req, res) {
-		const folderId = req.query && parseInt(req.query.folderId);
+		const folderId = req.query && req.query.folderId && parseInt(req.query.folderId);
 		const queryDir = req.query && req.query.dir || '';
 		const files = [];
 		const folders = [];
