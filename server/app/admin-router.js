@@ -75,4 +75,17 @@ router.post('/addFolder', function(req, res) {
 	});
 });
 
+router.post('/removeFolder', function(req, res) {
+	const { id } = req.body;
+	folderModel.destroy({
+		where : { id },
+	}).then(function(data) {
+		res.json(data);
+	}).catch(function(error) {
+		res.status(400).json({
+			error : error.message,
+		});
+	});
+});
+
 module.exports = router;

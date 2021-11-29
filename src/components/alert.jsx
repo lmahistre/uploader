@@ -1,7 +1,7 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
+import { createUseStyles } from 'react-jss';
 import React from 'react';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	alert : {
 		backgroundColor : '#200',
 		borderRadius : '4px',
@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
 });
 
 export default function Alert(props) {
+	const classes = useStyles();
 	return (
-		<div className={css(styles.alert)}>{props.children}</div>
+		<div className={classes.alert}>{props.children}</div>
 	);
 }

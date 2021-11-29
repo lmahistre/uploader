@@ -11,3 +11,7 @@ export function getFolderContent(dir) {
 export function addFolder(dir) {
 	return http.post('/admin/addFolder', {dir});
 }
+
+export function removeFolder(id) {
+	return http.post('/admin/removeFolder', {id});
+}
