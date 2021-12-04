@@ -119,8 +119,6 @@ export default function Main() {
 		updateFileList();
 	}, []);
 
-	// console.log(files);
-
 	return (
 		<React.Fragment>
 			<div className={css(styles.folderIndicator)}>

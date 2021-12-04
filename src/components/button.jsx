@@ -1,7 +1,7 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	button : {
 		padding : '8px 16px',
 		fontSize : '18px',
@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#E50',
 		border: 'none',
 		cursor : 'pointer',
+		margin : '0 4px',
 		':hover' : {
 			color : '#FFF',
 			backgroundColor : '#E80',
@@ -30,7 +31,9 @@ export default function Button({
 	children,
 	onClick,
 }) {
+	const classes = useStyles();
+
 	return (
-		<button className={css(styles.button)} type="button" onClick={onClick}>{children}</button>
+		<button className={classes.button} type="button" onClick={onClick}>{children}</button>
 	);
 }

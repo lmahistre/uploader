@@ -1,5 +1,5 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
 import * as adminActions from '../services/admin-actions';
 
@@ -9,12 +9,15 @@ import FileItem from './file-item';
 import H2 from './h2';
 import Loader from './loader';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	fileList : {
 		borderRadius : '4px',
 		width : '100%',
 		display : 'flex',
 		flexDirection : 'column',
+	},
+	folderIndicator : {
+		margin : '4px 0',
 	},
 });
 
@@ -22,10 +25,13 @@ export default function FolderSelector({
 	back,
 	selectFolder,
 }) {
+	const classes = useStyles();
+
 	const [error, setError] = React.useState(null);
 	const [currentDir, setCurrentDir] = React.useState('');
 	const [files, setFiles] = React.useState(null);
 	const [loading, setLoading] = React.useState(false);
+	const [showHiddenFiles, setShowHiddenFiles] = React.useState(false);
 
 	const updateFileList = function(dirName) {
 		setLoading(true);
@@ -55,6 +61,15 @@ export default function FolderSelector({
 		updateFileList(currentDir);
 	}, []);
 
+	const toggleShowHiddenFiles = function() {
+		setShowHiddenFiles(!showHiddenFiles);
+	};
+
+	const filterFiles = function(elt) {
+		// console.log(elt);
+		return showHiddenFiles || !elt.name.startsWith('.');
+	};
+
 	return (
 		<React.Fragment>
 			{error && <Alert>{error}</Alert>}
@@ -63,13 +78,17 @@ export default function FolderSelector({
 			{!loading && currentDir && (
 				<Button onClick={parentDir}>Parent Folder</Button>
 			)}
-			<div className={css(styles.folderIndicator)}>
+			<div className={classes.folderIndicator}>
 				{loading && <Loader/>}
 				{currentDir && <H2>{currentDir}</H2>}
 			</div>
+			<div onClick={toggleShowHiddenFiles} className={classes.folderIndicator}>
+				<input type="checkbox" checked={showHiddenFiles} />
+				<label>Show hidden files</label>
+			</div>
 			{loading && <div>Loading</div>}
-			<div className={css(styles.fileList)}>
-				{files && files.map((elt, idx) => (
+			<div className={classes.fileList}>
+				{files && files.filter(filterFiles).map((elt, idx) => (
 					<FileItem
 						key={idx}
 						file={elt}
