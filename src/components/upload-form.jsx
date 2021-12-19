@@ -1,13 +1,33 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
+import classnames from 'classnames';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
 import * as utils from '../services/utils';
 
 import Button from './button';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	uploadInput : {
 		display : 'none',
+	},
+	fileText : {
+		width : '100%',
+		display : 'block',
+		padding: '4px 8px',
+		boxSizing : 'border-box',
+	},
+	progressBar : {
+		float : 'left',
+		width : '0',
+		height: '28px',
+		lineHeight: '20px',
+		textAlign: 'center',
+		backgroundColor: '#E80',
+		transition: 'width .6s linear',
+		marginTop : '-28px',
+		borderRadius : '2px',
+		padding: '4px 8px',
+		boxSizing : 'border-box',
 	},
 	panelBody : {
 		backgroundColor : '#234',
@@ -34,25 +54,6 @@ const styles = StyleSheet.create({
 		padding: '0',
 		height: '28px',
 	},
-	fileText : {
-		width : '100%',
-		display : 'block',
-		padding: '4px 8px',
-		boxSizing : 'border-box',
-	},
-	progressBar : {
-		float : 'left',
-		width : '0',
-		height: '28px',
-		lineHeight: '20px',
-		textAlign: 'center',
-		backgroundColor: '#E80',
-		transition: 'width .6s linear',
-		marginTop : '-28px',
-		borderRadius : '2px',
-		padding: '4px 8px',
-		boxSizing : 'border-box',
-	},
 	error : {
 		backgroundColor : '#800',
 	},
@@ -62,6 +63,8 @@ const styles = StyleSheet.create({
 });
 
 export default function UploadForm() {
+	const classes = useStyles();
+
 	const [drag, setDrag] = React.useState(false);
 	const [filesInUpload, setFilesInUpload] = React.useState([]);
 
@@ -169,24 +172,24 @@ export default function UploadForm() {
 
 	return (
 		<div
-			className={css(styles.panelBody, drag && styles.drag)}
+			className={classnames(classes.panelBody, drag && classes.drag)}
 			onDragOver={handleDragOver}
 			onDrop={handleDrop}
 		>
 			<Button onClick={triggerSelectFile}>Upload File</Button>
-			<input className={css(styles.uploadInput)} type="file" name="uploads[]" multiple="multiple " onChange={upload} ref={uploadInputRef} />
+			<input className={classes.uploadInput} type="file" name="uploads[]" multiple="multiple " onChange={upload} ref={uploadInputRef} />
 
 			{filesInUpload.map(file => file.complete ?
 				<div
 					key={file.index}
-					className={css(styles.fileItem, file.success ? styles.success : styles.error)}
+					className={classnames(classes.fileItem, file.success ? classes.success : classes.error)}
 				>
 					<span className="file-text">{file.name}</span>
 				</div>
 			:
-				<div key={file.index} className={css(styles.fileItem, styles.fileInUpload)}>
-					<div className={css(styles.fileText)}>{file.name} : {file.progress} %</div>
-					<div className={css(styles.progressBar)} role="progressbar" style={{width : file.progress+'%'}} />
+				<div key={file.index} className={classnames(classes.fileItem, classes.fileInUpload)}>
+					<div className={classes.fileText}>{file.name} : {file.progress} %</div>
+					<div className={classes.progressBar} role="progressbar" style={{width : file.progress+'%'}} />
 				</div>
 			)}
 		</div>

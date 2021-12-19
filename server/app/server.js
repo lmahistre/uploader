@@ -97,7 +97,7 @@ module.exports = function(options) {
 		});
 
 		form.on('error', function(err) {
-			console.log(chalk.red('An error has occured: \n' + err));
+			process.stderr.write(chalk.red('An error has occured: \n' + err + '\n'));
 			res.status(403).json({
 				error : err.message,
 			});
@@ -122,7 +122,7 @@ module.exports = function(options) {
 				}
 			}
 
-			console.log(msg);
+			process.stdout.write(msg + '/n');
 
 			if (options.notify && config.notify) {
 				notifier.notify({
@@ -256,10 +256,10 @@ module.exports = function(options) {
 		for (let k in ifaces) {
 			ifaces[k].map(function(iface) {
 				if (iface.family === 'IPv4') {
-					console.log('Server running on ' + iface.address + ':' + port);
+					process.stdout.write('Server running on ' + iface.address + ':' + port + '\n');
 				}
 			});
 		}
-		console.log('Uploads in folder: ' + chalk.green(uploadDir));
+		process.stdout.write('Uploads in folder: ' + chalk.green(uploadDir) + '\n');
 	});
 };

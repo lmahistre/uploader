@@ -1,5 +1,5 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
 import * as actions from '../services/actions';
 
@@ -11,7 +11,7 @@ import Loader from './loader';
 import ArrowCircleUpIcon from '../svg/arrow-circle-up.svg';
 import SearchIcon from '../svg/search.svg';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	fileList : {
 		borderRadius : '4px',
 		width : '100%',
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 		padding : '4px',
 		borderRadius : '4px',
 		borderWidth : '0px',
+		cursor : 'pointer',
 		':hover' : {
 			backgroundColor : '#234',
 		},
@@ -61,12 +62,15 @@ const styles = StyleSheet.create({
 });
 
 export default function Main() {
+	const classes = useStyles();
+
 	const [error, setError] = React.useState(null);
 	const [currentFolderId, setCurrentFolderId] = React.useState(null);
 	const [currentDir, setCurrentDir] = React.useState(null);
 	const [files, setFiles] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
 	const [searchText, setSearchText] = React.useState('');
+	const [roots, setRoots] = React.useState(null);
 
 	const updateFileList = function(folderId, dirName) {
 		setLoading(true);
@@ -74,8 +78,25 @@ export default function Main() {
 			setFiles(result.files);
 			setCurrentDir(result.dir);
 			setCurrentFolderId(result.folderId);
+
+			if (!folderId && !dirName && Array.isArray(result.files)) {
+				// console.log(result);
+				setRoots(result.files.reduce(function(acc, elt) {
+					if (elt.isDir && elt.isRoot) {
+						return {
+							...acc,
+							[elt.id] : elt.name,
+						};
+					}
+					else {
+						return acc;
+					}
+				}, {}));
+			}
+
 			setLoading(false);
 			setSearchText('');
+			setError(null);
 		}).catch(function(error) {
 			setError(error);
 			setLoading(false);
@@ -87,10 +108,16 @@ export default function Main() {
 	};
 
 	const parentDir = function() {
-		if (currentDir) {
-			const parts = currentDir.split('/');
-			parts.splice(-1);
-			updateFileList(currentFolderId, parts.join('/'));
+		if (currentFolderId) {
+			if (currentDir) {
+				const parts = currentDir.split('/');
+				parts.splice(-1);
+				updateFileList(currentFolderId, parts.join('/'));
+			}
+			else {
+				setCurrentFolderId(null);
+				updateFileList();
+			}
 		}
 	};
 
@@ -121,26 +148,26 @@ export default function Main() {
 
 	return (
 		<React.Fragment>
-			<div className={css(styles.folderIndicator)}>
+			<div className={classes.folderIndicator}>
 				{loading ?
 					<Loader/>
 				:
 					currentFolderId && (
 						<React.Fragment>
-							<button onClick={parentDir} className={css(styles.button)}>
+							<button onClick={parentDir} className={classes.button}>
 								<ArrowCircleUpIcon/>
 							</button>
-							<H2>{currentFolderId} {currentDir}</H2>
+							<H2>{(roots && roots[currentFolderId] || currentFolderId) + currentDir}</H2>
 						</React.Fragment>
 					)
 				}
 			</div>
 			{error && <Alert>{error}</Alert>}
-			<div className={css(styles.searchContainer)}>
-				<SearchIcon className={css(styles.searchIcon)} />
-				<input type="text" onChange={search} value={searchText} className={css(styles.search)} />
+			<div className={classes.searchContainer}>
+				<SearchIcon className={classes.searchIcon} />
+				<input type="text" onChange={search} value={searchText} className={classes.search} />
 			</div>
-			<div className={css(styles.fileList)}>
+			<div className={classes.fileList}>
 				{files.filter(file => showFile(file.name)).map(file => (
 					<FileRow
 						key={file.name}

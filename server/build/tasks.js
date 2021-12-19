@@ -5,9 +5,9 @@ const compiler = require('./compiler.js');
 
 exports.js = function() {
 	return compiler.js(config.js).then(function() {
-		console.log(chalk.green('JS successfully compiled'));
+		process.stdout.write(chalk.green('JS successfully compiled')+'\n');
 	}).catch(function(error) {
-		console.log(chalk.red(error));
+		console.error(chalk.red(error));
 	});
 };
 

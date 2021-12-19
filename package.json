@@ -13,29 +13,28 @@
   "author": "Lionel Mahistre",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.19.1",
     "chalk": "^3.0.0",
-    "express": "^4.17.1",
-    "formidable": "^1.2.1",
+    "express": "^4.17.2",
+    "formidable": "^2.0.1",
     "jest": "^24.9.0",
-    "node-notifier": "^6.0.0",
-    "sequelize": "^6.3.5",
-    "sqlite3": "^5.0.0"
+    "node-notifier": "^10.0.0",
+    "sequelize": "^6.12.0",
+    "sqlite3": "^5.0.2",
+    "webpack": "^5.65.0"
   },
   "devDependencies": {
-    "@babel/core": "7.11.1",
-    "@babel/preset-env": "7.11.0",
-    "@babel/preset-react": "7.10.4",
-    "aphrodite": "2.4.0",
-    "babel-loader": "8.1.0",
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
+    "@babel/preset-react": "^7.16.5",
+    "babel-loader": "^8.2.3",
     "classnames": "^2.3.1",
-    "eslint": "^7.12.1",
-    "eslint-plugin-react": "^7.21.5",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "react-jss": "^10.8.2",
-    "react-svg-loader": "^3.0.3",
-    "webpack": "4.44.1"
+    "eslint": "^8.5.0",
+    "eslint-plugin-react": "^7.27.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-jss": "^10.9.0",
+    "react-svg-loader": "^3.0.3"
   },
   "babel": {
     "presets": [
@@ -76,6 +75,14 @@
       "linebreak-style": [
         "error",
         "unix"
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "error"
+          ]
+        }
       ],
       "quotes": [
         "error",

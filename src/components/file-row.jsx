@@ -1,13 +1,14 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
+import classnames from 'classnames';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
-import * as utils from '../services/utils';
+import { readableSize } from '../services/utils';
 
 import BanIcon from '../svg/ban.svg';
 import FileIcon from '../svg/file.svg';
 import FolderIcon from '../svg/folder.svg';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	elt : {
 		margin : '2px',
 		backgroundColor : '#123',
@@ -43,25 +44,27 @@ export default function FileRow ({
 	file,
 	onDirClick,
 }) {
+	const classes = useStyles();
+
 	if (file.error) {
 		return (
-			<div className={css(styles.elt)}>
-				<BanIcon className={css(styles.icon)} />
-				<span className={css(styles.fileName)}>{file.name}</span>
+			<div className={classes.elt}>
+				<BanIcon className={classes.icon} />
+				<span className={classes.fileName}>{file.name}</span>
 			</div>
 		);
 	}
 	else {
 		return file.isDir ? (
-			<div className={css(styles.elt)} onClick={onDirClick}>
-				<FolderIcon className={css(styles.icon)} />
-				<span className={css(styles.fileName)}>{file.name}</span>
+			<div className={classes.elt} onClick={onDirClick}>
+				<FolderIcon className={classes.icon} />
+				<span className={classes.fileName}>{file.name}</span>
 			</div>
 		) : (
-			<a href={'/file/'+currentFolderId+encodeURI(currentDir+'/'+file.name)} className={css(styles.elt, styles.file)}>
-				<FileIcon className={css(styles.icon)} />
-				<span className={css(styles.fileName)}>{file.name}</span>
-				<span>{utils.readableSize(file.size)}</span>
+			<a href={'/file/'+currentFolderId+encodeURI(currentDir+'/'+file.name)} className={classnames(classes.elt, classes.file)}>
+				<FileIcon className={classes.icon} />
+				<span className={classes.fileName}>{file.name}</span>
+				<span>{readableSize(file.size)}</span>
 			</a>
 		);
 	}

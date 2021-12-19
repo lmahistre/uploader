@@ -30,16 +30,16 @@ exports.start = function(args) {
 };
 
 exports.default = function() {
-	console.log('No action specified');
+	process.stdout.write('No action specified\n');
 };
 
 exports.error = function(error) {
-	console.log(chalk.red(error));
+	console.error(chalk.red(error));
 };
 
 exports.version = function() {
 	const packageJson = require('../package.json');
-	console.log(chalk.green('Version ' + packageJson.version));
+	process.stdout.write(chalk.green('Version ' + packageJson.version) + '\n');
 };
 
 exports.createDb = function() {

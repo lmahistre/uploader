@@ -1,7 +1,7 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	h1 : {
 		color: '#FFF',
 		margin: '0 0 16px 0',
@@ -10,9 +10,10 @@ const styles = StyleSheet.create({
 });
 
 export default function H1(props) {
+	const classes = useStyles();
 	return (
 		<React.Fragment>
-			<h1 className={css(styles.h1)}>{props.children}</h1>
+			<h1 className={classes.h1}>{props.children}</h1>
 		</React.Fragment>
 	);
 }

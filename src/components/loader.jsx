@@ -1,9 +1,9 @@
-import { StyleSheet, css } from 'aphrodite/no-important';
 import React from 'react';
+import { createUseStyles } from 'react-jss';
 
 import ClockIcon from '../svg/clock.svg';
 
-const styles = StyleSheet.create({
+const useStyles = createUseStyles({
 	container : {
 		width : '48px',
 		height : '48px',
@@ -22,9 +22,11 @@ const styles = StyleSheet.create({
 });
 
 export default function Loader() {
+	const classes = useStyles();
+
 	return (
-		<div className={css(styles.container)}>
-			<ClockIcon className={css(styles.icon)} />
+		<div className={classes.container}>
+			<ClockIcon className={classes.icon} />
 		</div>
 	);
 }
