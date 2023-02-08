@@ -67,8 +67,11 @@ module.exports = function(options) {
 		}
 	});
 
-	app.post('/upload', function(req, res){
-		const form = new formidable.IncomingForm();
+	app.post('/upload', function(req, res) {
+		let isEnded = false;
+		const form = new formidable.IncomingForm({
+			maxFileSize : options.maxFileSize || config.maxFileSize,
+		});
 		const remoteIp = req.ip.split(':').pop();
 		const files = [];
 
@@ -84,7 +87,7 @@ module.exports = function(options) {
 		}
 
 		form.on('file', function(field, file) {
-			clientFileName = file.name;
+			clientFileName = file.originalFilename;
 			serverFileName = clientFileName;
 			while (fs.existsSync(path.join(form.uploadDir, serverFileName))) {
 				serverFileName = utils.findNewName(serverFileName);
@@ -93,7 +96,7 @@ module.exports = function(options) {
 				serverFileName,
 				clientFileName,
 			});
-			fs.renameSync(file.path, path.join(uploadDir, serverFileName));
+			fs.renameSync(file.filepath, path.join(uploadDir, serverFileName));
 		});
 
 		form.on('error', function(err) {
@@ -104,37 +107,40 @@ module.exports = function(options) {
 		});
 
 		form.on('end', function() {
-			let msg = '';
-			if (files.length > 1) {
-				msg = files.length + ' files have been uploaded from ' + chalk.green(remoteIp) + ' :\n';
-				for (let i=0; i<files.length; i++) {
-					msg += chalk.green(files[i].serverFileName);
-					if (files[i].serverFileName !== files[i].clientFileName) {
-						msg += ' (original name: '+chalk.yellow(files[i].clientFileName)+')';
+			if (!isEnded) {
+				let msg = '';
+				if (files.length > 1) {
+					msg = files.length + ' files have been uploaded from ' + chalk.green(remoteIp) + ' :\n';
+					for (let i=0; i<files.length; i++) {
+						msg += chalk.green(files[i].serverFileName);
+						if (files[i].serverFileName !== files[i].clientFileName) {
+							msg += ' (original name: '+chalk.yellow(files[i].clientFileName)+')';
+						}
+						msg += '\n';
 					}
-					msg += '\n';
 				}
-			}
-			else {
-				msg = chalk.yellow(files[0].serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp);
-				if (files[0].clientFileName !== files[0].serverFileName) {
-					msg += ' (original name: '+chalk.yellow(clientFileName)+')';
+				else {
+					msg = chalk.yellow(files[0].serverFileName) + ' has been uploaded from ' + chalk.green(remoteIp);
+					if (files[0].clientFileName !== files[0].serverFileName) {
+						msg += ' (original name: '+chalk.yellow(clientFileName)+')';
+					}
 				}
-			}
 
-			process.stdout.write(msg + '/n');
+				process.stdout.write(msg + '\n');
 
-			if (options.notify && config.notify) {
-				notifier.notify({
-					title : files.length + ' file' + (files.length > 1 ? 's' : '') + ' uploaded',
-					message : files.map(f => f.serverFileName).join('\n'),
-					icon : path.join(rootFolder, 'front/favicon.png'),
+				if (options.notify && config.notify) {
+					notifier.notify({
+						title : files.length + ' file' + (files.length > 1 ? 's' : '') + ' uploaded',
+						message : files.map(f => f.serverFileName).join('\n'),
+						icon : path.join(rootFolder, 'front/favicon.png'),
+					});
+				}
+
+				isEnded = true;
+				res.json({
+					success : 1,
 				});
 			}
-
-			res.json({
-				success : 1,
-			});
 		});
 
 		form.parse(req);
